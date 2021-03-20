@@ -1,6 +1,6 @@
-// useState is the API to hold the state of the user.
+// useState is the API to hold the state of the user. https://reactjs.org/docs/hooks-state.html
 import React, { useState } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom'; //https://reactrouter.com/web/guides/quick-start
 import { Link } from 'react-router-dom';
 
 import './App.css';
@@ -17,7 +17,7 @@ import Academic_Records from './components/Academic_Records';
 
 
 function App() {
-  const { token, setToken } = useToken();
+  const { token, setToken } = useToken(); //The useToken function defined in ./components/useToken
 
   // Display Login if the token in question is falsy
   if(!token) {
