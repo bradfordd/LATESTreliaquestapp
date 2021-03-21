@@ -18,7 +18,7 @@ import Academic_Records from './components/Academic_Records';
 
 function App() {
   const { token, setToken } = useToken(); //The useToken function defined in ./components/useToken
-
+  //Can set any token/setToken pair into the useToken() function
   // Display Login if the token in question is falsy
   if(!token) {
     return <Login setToken={setToken} />
