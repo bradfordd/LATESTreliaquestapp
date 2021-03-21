@@ -13,7 +13,7 @@ import Personal_info from './components/Personal_info';
 import Courses from './components/Courses';
 import Academic_Records from './components/Academic_Records';
 
-
+//https://reactjs.org/docs/components-and-props.html documentation on components and props for future reference
 
 
 function App() {
