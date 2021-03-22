@@ -10,7 +10,7 @@ import About from './About';
 import Contact from './Contact';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-async function loginUser(credentials) {
+async function loginUser(credentials) { //https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
  return fetch('http://localhost:8080/login', {
    method: 'POST',
    headers: {
