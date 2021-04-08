@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch, Link, Redirect } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import NavBar from "./components/NavBar";
+import About from "./components/About"
 
 import "./App.css";
 
@@ -18,6 +19,7 @@ class App extends Component {
             <Route path="/components/login" exact component={LoginForm} />
 
             <Route path="/components/register" exact component={RegisterForm} />
+            <Route path="/components/about" exact component={About} />
 
             <Redirect from="/" exact to="/" />
             <Redirect to="/not-found" />
