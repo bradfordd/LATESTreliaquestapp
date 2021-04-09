@@ -16,7 +16,7 @@ const port =  process.env.PORT || 8080;
 
 //app.use(cors());
 //app.use(express.json());
-app.use('/app')
+app.use('/app', routesUrls) //VERY IMPORTANT, WE MAY NEED TO CHANGE THIS TO ACCOMODATE THE ROUTING OF THE APP
 app.listen(8080, () => { 
     console.log(`App is listening on port ${port}`);
 });
