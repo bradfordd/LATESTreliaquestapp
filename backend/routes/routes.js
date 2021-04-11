@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-/*
-const signUpTemplateCopy = require('../models/loginmodels)
+
+const signUpTemplateCopy = require('./models/loginmodels')
 
 router.post('/signup', (request, response) => {
     const signedUpUser = new signUpTemplateCopy({
@@ -19,6 +19,6 @@ router.post('/signup', (request, response) => {
         response.json(error)
     })
 })
-*/
+
 
 module.exports = router
