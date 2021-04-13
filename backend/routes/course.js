@@ -17,7 +17,7 @@ router.route('/').post((req, res) => {
     for (i = 0; i < req.body.students.length; i++) {
         students.push(req.body.students[i])
     }
-
+//test
     const newCourse = new Course({name, teacherAssigned, students});
   
     newCourse.save()
