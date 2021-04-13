@@ -20,7 +20,7 @@ let Register = require('../models/register.model');
     })
 })*/
 
-router.route('/components/register').post((req, res) => {
+router.route('/').post((req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     const name = req.body.name;
@@ -36,8 +36,8 @@ router.route('/components/register').post((req, res) => {
       date,
     });
   
-    newExercise.save()
-    .then(() => res.json('Exercise added!'))
+    newRegister.save()
+    .then(() => res.json('User Registered!'))
     .catch(err => res.status(400).json('Error: ' + err));
   });
 

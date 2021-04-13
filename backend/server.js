@@ -24,7 +24,7 @@ const gradeRouter = require('./routes/grade');
 //const usersRouter = require('./routes/users');
 
 app.use('/components/grades', gradeRouter);
-//app.use('/users', registerRouter);
+app.use('/components/register', registerRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
