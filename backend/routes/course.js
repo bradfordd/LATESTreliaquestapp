@@ -14,6 +14,9 @@ router.route('/').post((req, res) => {
     const name = req.body.name;
     const teacherAssigned = req.body.teacherAssigned;
     const students = [];
+    for (i = 0; i < req.body.students.length; i++) {
+        students.push(req.body.students[i])
+    }
 
     const newCourse = new Course({name, teacherAssigned, students});
   
