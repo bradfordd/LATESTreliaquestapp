@@ -7,6 +7,14 @@ const gradeSchema = new Schema({
         type:String,
         required:true
     },
+    gradeAssigned:{
+        type:Number,
+        required:true
+    },
+    total:{
+        type:Number,
+        required:true
+    }
 });
 
 const Grade = mongoose.model('Grade', gradeSchema);
