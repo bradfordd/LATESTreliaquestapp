@@ -20,11 +20,12 @@ connection.once('open', () => {
 //ADD ROUTES HERE
 const registerRouter = require('./routes/register');
 const gradeRouter = require('./routes/grade');
-//const exercisesRouter = require('./routes/exercises');
+const courseRouter = require('./routes/course');
 //const usersRouter = require('./routes/users');
 
 app.use('/components/grades', gradeRouter);
 app.use('/components/register', registerRouter);
+app.use('/components/course', courseRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
