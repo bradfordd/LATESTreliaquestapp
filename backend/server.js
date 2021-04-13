@@ -1,21 +1,32 @@
-const express = require('express')
-const app = express()
-const mongoose = require('mongoose')
-const dotenv = require('dotenv')
-const routesUrls = require('./routes/routes')
-const cors = require('cors')
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
 
-require('dotenv').config()
+require('dotenv').config();
 
-dotenv.config()
-
-mongoose.connect(process.env.DATABASE_ACCESS, () => console.log("Database connected"))
-
-const port =  process.env.PORT || 8080;
+const app = express();
+const port = process.env.PORT || 8080;
 
 app.use(cors());
 app.use(express.json());
-app.use('/app', routesUrls) //VERY IMPORTANT, WE MAY NEED TO CHANGE THIS TO ACCOMODATE THE ROUTING OF THE APP
-app.listen(8080, () => { 
-    console.log(`App is listening on port ${port}`);
+
+const uri = process.env.ATLAS_URI;
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true }
+);
+const connection = mongoose.connection;
+connection.once('open', () => {
+  console.log("MongoDB database connection established successfully");
+})
+//ADD ROUTES HERE
+const registerRouter = require('./routes/register');
+const gradeRouter = require('./routes/grade');
+//const exercisesRouter = require('./routes/exercises');
+//const usersRouter = require('./routes/users');
+
+app.use('/components/grades', gradeRouter);
+//app.use('/users', registerRouter);
+
+app.listen(port, () => {
+    console.log(`Server is running on port: ${port}`);
 });
+
