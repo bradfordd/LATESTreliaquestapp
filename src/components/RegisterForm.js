@@ -4,10 +4,20 @@ import Joi from "joi-browser";
 import Form from "./Form";
 
 class RegisterForm extends Form {
-  state = {
-    data: { username: "", password: "", name: "" , address: ""},
-    errors: {},
-  };
+  constructor(props) {
+    super(props);
+
+    this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onChangePassword = this.onChangePassword.bind(this);
+    this.onChangeName = this.onChangeName.bind(this);
+    this.onChangeAddress = this.onChangeAddress.bind(this);
+    this.doSubmit = this.doSubmit.bind(this);
+
+    this.state = {
+      data: { username: "", password: "", name: "", address: "" },
+      errors: {},
+    };
+  }
 
   schema = {
     username: Joi.string().required().email().label("Username"),
@@ -16,8 +26,32 @@ class RegisterForm extends Form {
     address: Joi.string().required().label("Address"),
   };
 
+  onChangeUsername(e) {
+    this.setState({
+      username: e.target.value,
+    });
+  }
+
+  onChangePassword(e) {
+    this.setState({
+      password: e.target.value,
+    });
+  }
+
+  onChangeName(e) {
+    this.setState({
+      name: e.target.value,
+    });
+  }
+
+  onChangeAddress(e) {
+    this.setState({
+      address: e.target.value,
+    });
+  }
+
   doSubmit = () => {
-    console.log("Submitted");
+    console.log(this.state);
   };
 
   render() {
