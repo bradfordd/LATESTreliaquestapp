@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 let Register = require('../models/register.model');
+let Course = require('../models/course.model');
 
 router.route('/').post((req, res) => {
     const username = req.body.username;
@@ -22,6 +23,9 @@ router.route('/').post((req, res) => {
     newRegister.save()
     .then(() => res.json('User Registered!'))
     .catch(err => res.status(400).json('Error: ' + err));
+  });
+  router.route('/:courseid').put((req, res) => {
+    //assignedCoursesIDs.push(req.param.courseid);
   });
 
 module.exports = router;

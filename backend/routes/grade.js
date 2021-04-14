@@ -7,8 +7,9 @@ router.route('/').post((req, res) => {
     const name = req.body.name;
     const gradeAssigned = Number(req.body.gradeAssigned);
     const total = Number(req.body.total);
+    const course = req.body.course;
 
-    const newGrade = new Grade({name, gradeAssigned, total});
+    const newGrade = new Grade({name, gradeAssigned, total, course});
   
     newGrade.save()
       .then(() => res.json('Grade added!'))

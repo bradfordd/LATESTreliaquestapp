@@ -21,11 +21,14 @@ const registerSchema = new Schema({
   },
   teacher: {
     type: Boolean,
-    /*required: true*/
+    required: true,
   },
   date: {
     type: Date,
     default: Date.now,
+  },
+  assignedCoursesIDs: {
+    type: [],
   },
 });
 
