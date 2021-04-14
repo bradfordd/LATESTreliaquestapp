@@ -26,6 +26,9 @@ const registerSchema = new Schema({
     date:{
         type:Date,
         default:Date.now
+    },
+    assignedCoursesIDs:{
+        type:[]
     }
 });
 

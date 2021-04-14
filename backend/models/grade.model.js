@@ -14,6 +14,10 @@ const gradeSchema = new Schema({
     total:{
         type:Number,
         required:true
+    },
+    Course:{
+        type:String,
+        required:true
     }
 });
 
