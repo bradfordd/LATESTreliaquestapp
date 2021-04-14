@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
 import Form from "./Form";
+import axios from "axios";
 
 class RegisterForm extends Form {
   constructor(props) {
@@ -52,6 +53,10 @@ class RegisterForm extends Form {
 
   doSubmit = () => {
     console.log(this.state);
+
+    axios
+      .post("http://localhost:8080/components/register", this.state)
+      .then(res => console.log(res.data));
   };
 
   render() {
