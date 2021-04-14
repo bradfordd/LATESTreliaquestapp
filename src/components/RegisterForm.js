@@ -52,10 +52,15 @@ class RegisterForm extends Form {
   }
 
   doSubmit = () => {
-    console.log(this.state);
-
+    const user = {
+      username: this.state.data.username,
+      password: this.state.data.password,
+      name: this.state.data.name,
+      address: this.state.data.address,
+    };
+    console.log(user);
     axios
-      .post("http://localhost:8080/components/register", this.state)
+      .post("http://localhost:8080/components/register", user)
       .then(res => console.log(res.data));
   };
 
