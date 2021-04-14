@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-let Register = require('../models/register.model');
-let Course = require('../models/course.model');
+let Register = require('../models/registermodel');
+let Course = require('../models/coursemodel');
 
 router.route('/').post((req, res) => {
     const username = req.body.username;

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-let Login = require('../models/login.model');
+let Login = require('../models/loginmodel');
 
 router.route('/').get((req, res) => {
     Login.find()
