@@ -1,3 +1,4 @@
+/*Make a dropdown box for the user to select whether they are a teacher at the time of registration   */
 //WORK MAINLY ON THIS
 import React, { Component } from "react";
 import Joi from "joi-browser";
@@ -9,13 +10,14 @@ class RegisterForm extends Form {
     super(props);
 
     this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onChangeTeacher = this.onChangeTeacher.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeAddress = this.onChangeAddress.bind(this);
     this.doSubmit = this.doSubmit.bind(this);
 
     this.state = {
-      data: { username: "", password: "", name: "", address: "" },
+      data: { username: "", password: "", name: "", address: "", teacher: false },
       errors: {},
     };
   }
@@ -25,6 +27,7 @@ class RegisterForm extends Form {
     password: Joi.string().required().min(5).label("Password"),
     name: Joi.string().required().label("Name"),
     address: Joi.string().required().label("Address"),
+    teacher: Joi.bool().required().label("Teacher")
   };
 
   onChangeUsername(e) {
@@ -33,6 +36,11 @@ class RegisterForm extends Form {
     });
   }
 
+  onChangeTeacher(e) {
+    this.setState({
+      teacher: e.target.value,
+    });
+  }
   onChangePassword(e) {
     this.setState({
       password: e.target.value,
@@ -56,7 +64,8 @@ class RegisterForm extends Form {
     username: this.state.data.username,
     password: this.state.data.password,
     name: this.state.data.name,
-    address: this.state.data.address
+    address: this.state.data.address,
+    teacher: this.state.data.teacher
     }
     console.log(user);
     axios
@@ -73,6 +82,7 @@ class RegisterForm extends Form {
           {this.renderInput("password", "Password", "password")}
           {this.renderInput("name", "Name")}
           {this.renderInput("address", "Address")}
+          {this.renderInput("teacher", "Teacher")}
           {this.renderButton("Register")}
         </form>
       </div>
