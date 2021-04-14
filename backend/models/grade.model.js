@@ -15,7 +15,7 @@ const gradeSchema = new Schema({
         type:Number,
         required:true
     },
-    Course:{
+    course:{
         type:String,
         required:true
     }
