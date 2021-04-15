@@ -1,5 +1,6 @@
 /*burner*/
 const express = require('express');
+const bcrypt = require("bcryptjs");
 const router = express.Router();
 
 let Register = require('../models/registermodel');
@@ -12,6 +13,7 @@ router.route('/').post((req, res) => {
     const address = req.body.address;
     const teacher = Boolean(req.body.teacher);
     const date = req.body.date;
+
     const newRegister = new Register({
       username,
       password,
@@ -20,7 +22,13 @@ router.route('/').post((req, res) => {
       teacher,
       date,
     });
-  
+    // Create salt & hash i.e. encryption
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(newRegister.password, salt, (err, hash) => {
+        if (err) throw err;
+        newRegister.password = hash;
+      });
+    });
     newRegister.save()
     .then(() => res.json('User Registered!'))
     .catch(err => res.status(400).json('Error: ' + err));
