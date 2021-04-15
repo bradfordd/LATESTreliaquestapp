@@ -13,7 +13,9 @@ router.route('/').post((req, res) => {
     const address = req.body.address;
     const teacher = Boolean(req.body.teacher);
     const date = req.body.date;
-
+    // check if there is already a user
+   Register.findOne({ username: req.body.username }).then(user => {
+   if (user) return res.status(400).json({ msg: "User already exists" });
     const newRegister = new Register({
       username,
       password,
@@ -33,9 +35,8 @@ router.route('/').post((req, res) => {
     .then(() => res.json('User Registered!'))
     .catch(err => res.status(400).json('Error: ' + err));
   });
+  });
   router.route('/:courseid').put((req, res) => {
     //assignedCoursesIDs.push(req.param.courseid);
   });
-
 module.exports = router;
-
