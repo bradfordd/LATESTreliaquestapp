@@ -1,7 +1,7 @@
 /* These grade models are going to have to be assigned to student*/
 const express = require('express');
 const router = express.Router();
-let Grade = require('../models/grade.model');
+let Grade = require('../models/grademodel');
 
 router.route('/').post((req, res) => {
     const name = req.body.name;
