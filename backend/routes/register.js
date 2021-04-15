@@ -1,7 +1,8 @@
-/*burner*/
+/*We are currently at 19:39 in the video*/
 const express = require('express');
 const bcrypt = require("bcryptjs");
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 
 let Register = require('../models/registermodel');
 let Course = require('../models/coursemodel');
