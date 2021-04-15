@@ -1,14 +1,14 @@
 /*We are currently at 19:39 in the video*/
-const express = require('express');
+const express = require("express");
 const bcrypt = require("bcryptjs");
 const router = express.Router();
-const jwt = require('jsonwebtoken');
-const config = require('config');
+const jwt = require("jsonwebtoken");
+const config = require("config");
 
-let Register = require('../models/registermodel');
-let Course = require('../models/coursemodel');
+const Register = require("../models/registermodel");
+const Course = require("../models/coursemodel");
 
-router.route('/').post((req, res) => {
+router.route("/").post((req, res) => {
   const username = req.body.username;
   const password = req.body.password;
   const name = req.body.name;
@@ -30,34 +30,32 @@ router.route('/').post((req, res) => {
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(newRegister.password, salt, (err, hash) => {
         if (err) throw err;
-          newRegister.password = hash;
+        newRegister.password = hash;
+        newRegister.save().then(user => {
+          jwt.sign(
+            { id: user.id },
+            config.get("jwtSecret"),
+            { expiresIn: 3600 },
+            (err, token) => {
+              if (err) throw err;
+              res.json({
+                token,
+                user: {
+                  id: user.id,
+                  name: user.name,
+                  username: user.username,
+                },
+              });
+            }
+          );
+        });
       });
     });
-    newRegister.save()
-    .then(register => {
-
-      jwt.sign(
-        { id: register.id },
-        config.get('jwtSecret'),
-        { expiresIn: 3600 },
-        (err, token) => {
-          if(err) throw err;
-          res.json({
-            token,
-            register: {
-                id: register.id,
-                name: register.name,
-                username: register.username
-            }
-          });
-        }
-      )
-    })
-    //.then(register => res.json('User Registered!'))
+    //.then(user => res.json('User Registered!'))
     //.catch(err => res.status(400).json('Error: ' + err));
   });
 });
 //  router.route('/:courseid').put((req, res) => {
-    //assignedCoursesIDs.push(req.param.courseid);
+//assignedCoursesIDs.push(req.param.courseid);
 //});
 module.exports = router;
