@@ -4,14 +4,17 @@ import { BrowserRouter, Route, Switch, Link, Redirect } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import NavBar from "./components/NavBar";
-import About from "./components/About"
+import About from "./components/About";
+import { ToastContainer } from "react-toastify";
 
 import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
 
 class App extends Component {
   render() {
     return (
       <React.Fragment>
+        <ToastContainer />
         <NavBar />
         <main className="container">
           <Switch>
