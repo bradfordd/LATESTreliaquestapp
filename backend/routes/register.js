@@ -1,23 +1,23 @@
 /*We are currently at 19:39 in the video*/
-const express = require('express');
+const express = require("express");
 const bcrypt = require("bcryptjs");
 const router = express.Router();
-const jwt = require('jsonwebtoken');
-const config = require('config');
+const jwt = require("jsonwebtoken");
+const config = require("config");
 
-let Register = require('../models/registermodel');
-let Course = require('../models/coursemodel');
+const Register = require("../models/registermodel");
+const Course = require("../models/coursemodel");
 
-router.route('/').post((req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    const name = req.body.name;
-    const address = req.body.address;
-    const teacher = Boolean(req.body.teacher);
-    const date = req.body.date;
-    // check if there is already a user
-   Register.findOne({ username: req.body.username }).then(user => {
-   if (user) return res.status(400).json({ msg: "User already exists" });
+router.route("/").post((req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  const name = req.body.name;
+  const address = req.body.address;
+  const teacher = Boolean(req.body.teacher);
+  const date = req.body.date;
+  // check if there is already a user
+  Register.findOne({ username: req.body.username }).then(user => {
+    if (user) return res.status(400).json({ msg: "User already exists" });
     const newRegister = new Register({
       username,
       password,
@@ -31,14 +31,31 @@ router.route('/').post((req, res) => {
       bcrypt.hash(newRegister.password, salt, (err, hash) => {
         if (err) throw err;
         newRegister.password = hash;
+        newRegister.save().then(user => {
+          jwt.sign(
+            { id: user.id },
+            config.get("jwtSecret"),
+            { expiresIn: 3600 },
+            (err, token) => {
+              if (err) throw err;
+              res.json({
+                token,
+                user: {
+                  id: user.id,
+                  name: user.name,
+                  username: user.username,
+                },
+              });
+            }
+          );
+        });
       });
     });
-    newRegister.save()
-    .then(() => res.json('User Registered!'))
-    .catch(err => res.status(400).json('Error: ' + err));
+    //.then(user => res.json('User Registered!'))
+    //.catch(err => res.status(400).json('Error: ' + err));
   });
-  });
-  router.route('/:courseid').put((req, res) => {
-    //assignedCoursesIDs.push(req.param.courseid);
-  });
+});
+//  router.route('/:courseid').put((req, res) => {
+//assignedCoursesIDs.push(req.param.courseid);
+//});
 module.exports = router;
