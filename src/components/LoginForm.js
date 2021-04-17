@@ -43,16 +43,20 @@ class LoginForm extends Form {
       .post("http://localhost:8080/components/auth", user)
       .then(function (response) {
         localStorage.setItem("token", JSON.stringify(response.data));
-        localStorage.setItem("teacher", JSON.stringify(response.data.user.teacher));
+        localStorage.setItem(
+          "teacher",
+          JSON.stringify(response.data.user.teacher)
+        );
         localStorage.setItem("admin", JSON.stringify(response.data.user.admin));
       });
-      const teacherToken = localStorage.getItem("teacher");
-      const adminToken = localStorage.getItem("admin");
-      if (teacherToken){
-        this.props.history.push("/components/about");
-      }
-      
-      //console.log(response.data.user.admin);
+    const teacherToken = localStorage.getItem("teacher");
+    const adminToken = localStorage.getItem("admin");
+    if (teacherToken) {
+      window.location = "/components/about";
+      // this.props.history.push("/components/about");
+    }
+
+    //console.log(response.data.user.admin);
     /* const { data } = this.state;
     await login(data.username, data.password);
 

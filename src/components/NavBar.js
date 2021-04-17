@@ -30,6 +30,9 @@ const NavBar = () => {
           <NavLink className="nav-item nav-link" to="/components/about">
             About
           </NavLink>
+          <NavLink className="nav-item nav-link" to="/components/logout">
+            Logout
+          </NavLink>
         </div>
       </div>
     </nav>
