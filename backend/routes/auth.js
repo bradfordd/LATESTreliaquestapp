@@ -32,6 +32,8 @@ router.route("/").post((req, res) => {
               id: user.id,
               name: user.name,
               username: user.username,
+              admin: user.admin,
+              teacher: user.teacher,
             },
           });
         }

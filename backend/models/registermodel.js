@@ -31,6 +31,9 @@ const registerSchema = new Schema({
   assignedCoursesIDs: {
     type: [],
   },
+  admin: {
+      type:Boolean
+  },
 });
 
 const Register = mongoose.model("Register", registerSchema);

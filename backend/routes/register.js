@@ -15,6 +15,7 @@ router.route("/").post((req, res) => {
   const address = req.body.address;
   const teacher = Boolean(req.body.teacher);
   const date = req.body.date;
+  const admin = false;
   // check if there is already a user
   Register.findOne({ username: req.body.username }).then(user => {
     if (user) return res.status(400).json({ msg: "User already exists" });
@@ -25,12 +26,13 @@ router.route("/").post((req, res) => {
       address,
       teacher,
       date,
+      admin,
     });
     // Create salt & hash i.e. encryption
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(newRegister.password, salt, (err, hash) => {
         if (err) throw err;
-        newRegister.password = hash;
+         newRegister.password = hash;
         newRegister.save().then(user => {
           jwt.sign(
             { id: user.id },
@@ -44,6 +46,8 @@ router.route("/").post((req, res) => {
                   id: user.id,
                   name: user.name,
                   username: user.username,
+                  admin: user.admin,
+                  teacher: user.teacher,
                 },
               });
             }
