@@ -1,6 +1,5 @@
 // useState is the API to hold the state of the user.
 import React, { Component } from "react";
-import { BrowserRouter, Route, Switch, Link, Redirect } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import Academic_Records from "./components/Academic_Records";
@@ -8,17 +7,19 @@ import Courses from "./components/Courses";
 import NavBar from "./components/NavBar";
 import About from "./components/About";
 import Logout from "./components/logout";
+import Dashboard from "./components/Dashboard";
+import Personal_info from "./components/Personal_info";
+import { BrowserRouter, Route, Switch, Link, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import jwtDecode from "jwt-decode";
 
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-import Dashboard from "./components/Dashboard";
-import Personal_info from "./components/Personal_info";
 
 class App extends Component {
   state = {};
 
+  // Gives the current user object
   componentDidMount() {
     try {
       const jwt = localStorage.getItem("token");

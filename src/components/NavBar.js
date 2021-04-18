@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 
-const NavBar = () => {
+const NavBar = ({ user }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
@@ -20,19 +20,45 @@ const NavBar = () => {
       </button>
       <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div className="navbar-nav">
-          <NavLink className="nav-item nav-link" to="/components/login">
-            Login
-          </NavLink>
+          {!user && (
+            <React.Fragment>
+              <NavLink className="nav-item nav-link" to="/components/login">
+                Login
+              </NavLink>
 
-          <NavLink className="nav-item nav-link" to="/components/register">
-            Register
-          </NavLink>
-          <NavLink className="nav-item nav-link" to="/components/about">
-            About
-          </NavLink>
-          <NavLink className="nav-item nav-link" to="/components/logout">
-            Logout
-          </NavLink>
+              <NavLink className="nav-item nav-link" to="/components/register">
+                Register
+              </NavLink>
+              <NavLink className="nav-item nav-link" to="/components/about">
+                About
+              </NavLink>
+            </React.Fragment>
+          )}
+          {user && (
+            <React.Fragment>
+              <NavLink className="nav-item nav-link" to="/components/courses">
+                Courses
+              </NavLink>
+              <NavLink
+                className="nav-item nav-link"
+                to="/components/academicrecords"
+              >
+                Academic Records
+              </NavLink>
+              <NavLink
+                className="nav-item nav-link"
+                to="/components/personalinformation"
+              >
+                Personal Information
+              </NavLink>
+              <NavLink className="nav-item nav-link" to="/components/about">
+                About
+              </NavLink>
+              <NavLink className="nav-item nav-link" to="/components/logout">
+                Logout
+              </NavLink>
+            </React.Fragment>
+          )}
         </div>
       </div>
     </nav>
