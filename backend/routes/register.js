@@ -7,7 +7,33 @@ const config = require("config");
 
 const Register = require("../models/registermodel");
 const Course = require("../models/coursemodel");
+let Grade = require('../models/grademodel');
 
+function letterGradeCalculator(gradesAssigned, totals) {
+  var gradeAssignedTotal = 0;
+  var totalPointsAvailable = 0;
+  if (gradesAssigned.length == 0) {
+    return 'U';
+  }
+  for (var i = 0; i < gradesAssigned.length; i++){
+    gradesAssignedTotal += gradesAssigned[i];
+    totalPointsAvailable += totals[i];
+  }
+  var grade = gradeAssignedTotal / totalPointsAvailable;
+  grade = grade * 100;
+  switch(grade) {
+    case (grade >= 90):
+      return 'A';
+    case (grade >= 80):
+      return 'B';
+    case (grade >= 70):
+      return 'C';
+    case (grade >= 60):
+      return 'D';
+    default:
+      return 'F';
+  }
+}
 router.route("/").post((req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -59,7 +85,61 @@ router.route("/").post((req, res) => {
     //.catch(err => res.status(400).json('Error: ' + err));
   });
 });
-//  router.route('/:courseid').put((req, res) => {
-//assignedCoursesIDs.push(req.param.courseid);
-//});
+
+//Deletes all users of a given username
+//requires only the username
+router.route('/').delete((req, res) => {
+  Register.remove({username: req.body.username})
+  .then(register => res.json("deletion successful"))
+  .catch(err => res.status(400).json('Error: ' + err));
+});
+
+//Adds a course to a students assignedCoursesIDs array
+//requires studentID and courseID
+router.route('/courses').post((req, res) => {
+  const courseID = req.body.courseID;
+  const studentID = req.body.studentID;
+  
+  Register.updateOne(
+    { _id: studentID },
+    { $push: { assignedCoursesIDs: courseID } })
+  .catch(err => res.status(400).json('Error: ' + err));
+  Course.updateOne(
+    { _id: courseID },
+    { $push: { students: studentID } })
+  .then(register => res.json("student added!"))
+  .catch(err => res.status(400).json('Error: ' + err))
+});
+
+//returns all IDs of the courses a student is taking
+router.route('/courses').get((req,res) => {
+  var array1 = (60);
+  var array2 = (100);
+  const letter = letterGradeCalculator(array1, array2);
+  //const studentID = req.body.studentID;
+  //var student = Register.find({ _id: studentID}).assignedCoursesIDs
+  res.json(letter)
+});
+
+//Cascading delete to remove a student from a course
+//requires studentID and courseID
+router.route('/courses').delete((req, res) => {
+  const courseID = req.body.courseID;
+  const studentID = req.body.studentID;
+  
+  Register.updateOne(
+    { _id: studentID },
+    { $pull: { assignedCoursesIDs: courseID } })
+  .catch(err => res.status(400).json('Error: ' + err));
+  Grade.deleteMany(
+    {courseID : courseID,
+    studentID : studentID}
+    )
+    .catch(err => res.status(400).json('Error: ' + err));
+  Course.updateOne(
+    { _id: courseID },
+    { $pull: { students: studentID } })
+  .then(register => res.json("student removed!"))
+  .catch(err => res.status(400).json('Error: ' + err))
+});
 module.exports = router;

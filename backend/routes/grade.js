@@ -47,6 +47,12 @@ router.route('/').delete((req,res) => {
   Grade.deleteOne( {name: req.body.name, courseID: req.body.courseID, studentID: req.body.studentID})
   .then(grades => res.json("grade deleted!"))
   .catch(err => res.status(400).json('Error: ' + err));
+});
+router.route('/').put((req,res) => {
   
+  Grade.updateOne( {name: req.body.name, courseID: req.body.courseID, studentID: req.body.studentID}, 
+  {gradeAssigned: req.body.gradeAssigned})
+  .then(() => res.json('Grade updated!'))
+      .catch(err => res.status(400).json('Error: ' + err));
 });
 module.exports = router;
