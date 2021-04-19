@@ -51,8 +51,12 @@ class LoginForm extends Form {
       });
     const teacherToken = localStorage.getItem("teacher");
     const adminToken = localStorage.getItem("admin");
-    if (teacherToken) {
-      window.location = "/components/about";
+    var t_Token = false;
+    if (localStorage.getItem("token")) {
+      t_Token = localStorage.getItem("token");
+    }
+    if (t_Token) {
+      window.location = "/components/courses";
       // this.props.history.push("/components/about");
     }
 

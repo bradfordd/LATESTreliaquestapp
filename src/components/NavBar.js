@@ -47,7 +47,7 @@ const NavBar = ({ user }) => {
               </NavLink>
               <NavLink
                 className="nav-item nav-link"
-                to="/components/personalinformation"
+                to="/components/personalinfo"
               >
                 Personal Information
               </NavLink>

@@ -77,6 +77,8 @@ class RegisterForm extends Form {
     axios
       .post("http://localhost:8080/components/register", user)
       .then(res => console.log(res.data));
+
+    window.location = "/components/login";
   };
 
   render() {
