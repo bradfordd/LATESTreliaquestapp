@@ -39,21 +39,12 @@ router.route('/individual').get((req,res) => {
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
-//gets all grades of the given courseID and studentID
-//(all of a students individual grades in a course)
-/*router.route('/course').get(async(req,res) => {
-  var names = [];
-  var courses = [];
-  for (var i = 0; i < req.body.courses.length; i++) {
-    courses.push(req.body.courses[i]);
-  }
-  for (var i = 0; i < courses.length; i++) {
-    var temp = await Course.find({_id: courses[i]});
-    var newName = temp[0].name;
-    names.push(newName);
-  }
-  res.json(names);
-});*/
+router.route('/').get((req,res) => {
+  Grade.find( { courseID: req.body.courseID, studentID: req.body.studentID})
+  .then(grades => res.json(grades))
+  .catch(err => res.status(400).json('Error: ' + err));
+});
+
 
 //Deletes a grade given grade name, courseID for course grade belongs to, and the studentID
 //that the grade belongs to 
