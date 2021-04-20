@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 let Grade = require('../models/grademodel');
-
+let Course = require('../models/coursemodel');
 //What we require in a grade post request
 //name, gradeAssigned, total, courseName, courseID (in MongoDB), and studentID(in MongoDB)
 router.route('/').post((req, res) => {
@@ -25,31 +25,56 @@ router.route('/').post((req, res) => {
 //    .catch(err => res.status(400).json('Error: ' + err));
 //});
 
-router.route('/').get((req, res) => {
-  Grade.find({})
-  .then(grades => res.json(grades))
-  .catch(err => res.status(400).json('Error: ' + err));
-});
+//router.route('/').get((req, res) => {
+//  Grade.find({})
+//  .then(grades => res.json(grades))
+//  .catch(err => res.status(400).json('Error: ' + err));
+//});
 
+//Returns an individual grade given a course
+//requires name, courseID, and studentID
 router.route('/individual').get((req,res) => {
   Grade.findOne( {name: req.body.name, courseID: req.body.courseID, studentID: req.body.studentID})
   .then(grades => res.json(grades))
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/course').get((req,res) => {
-  Grade.find( {courseID: req.body.courseID, studentID: req.body.studentID})
-  .then(grades => res.json(grades))
-  .catch(err => res.status(400).json('Error: ' + err));
-});
+//gets all grades of the given courseID and studentID
+//(all of a students individual grades in a course)
+/*router.route('/course').get(async(req,res) => {
+  var names = [];
+  var courses = [];
+  for (var i = 0; i < req.body.courses.length; i++) {
+    courses.push(req.body.courses[i]);
+  }
+  for (var i = 0; i < courses.length; i++) {
+    var temp = await Course.find({_id: courses[i]});
+    var newName = temp[0].name;
+    names.push(newName);
+  }
+  res.json(names);
+});*/
 
+//Deletes a grade given grade name, courseID for course grade belongs to, and the studentID
+//that the grade belongs to 
 router.route('/').delete((req,res) => {
   Grade.deleteOne( {name: req.body.name, courseID: req.body.courseID, studentID: req.body.studentID})
   .then(grades => res.json("grade deleted!"))
   .catch(err => res.status(400).json('Error: ' + err));
 });
+
+//Deletes all instances of an assignment from a course gradebook
+//requires name and courseID
+router.route('/deleteAssignment').delete((req,res) => {
+  Grade.deleteAll( {name: req.body.name, courseID: req.body.courseID})
+  .then(grades => res.json("grade deleted!"))
+  .catch(err => res.status(400).json('Error: ' + err));
+});
+
+//updates the score of a grade given grade name, courseID for course grade belongs to, and the studentID
+//that the grade belongs to
+//Also requires the new grade to be assigned
 router.route('/').put((req,res) => {
-  
   Grade.updateOne( {name: req.body.name, courseID: req.body.courseID, studentID: req.body.studentID}, 
   {gradeAssigned: req.body.gradeAssigned})
   .then(() => res.json('Grade updated!'))
