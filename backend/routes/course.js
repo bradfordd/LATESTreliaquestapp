@@ -10,6 +10,7 @@ const express = require('express');
 const router = express.Router();
 let Course = require('../models/coursemodel');
 const Register = require("../models/registermodel");
+let Grade = require('../models/grademodel');
 
 //posts a new course, requires name, teacherassigned, and teacherID
 router.route('/').post(async(req, res) => {
@@ -41,6 +42,34 @@ router.route('/names').get(async(req,res) => {
      names.push(newName);
    }
    res.json(names);
+ });
+
+ //requires courseID array and studentID
+ router.route('/lettergrades').get(async(req,res) => {
+   var courseIDs = [];
+   const studentID = req.body.studentID;
+   var letterGrades = [];
+   for (var i = 0; i < req.body.courseIDs.length; i++){
+      courseIDs.push(req.body.courseIDs[i]);
+   }
+   var test = await Grade.find({courseID: courseIDs[0], studentID: studentID});
+   res.json(test);
+   for (var i = 0; i < courseIDs.length; i++) {
+      var assignedGradesTotal = 0;
+      var gradesTotal = 0;
+      
+   }
+   /*var names = [];
+   var courses = [];
+   for (var i = 0; i < req.body.courses.length; i++) {
+     courses.push(req.body.courses[i]);
+   }
+   for (var i = 0; i < courses.length; i++) {
+     var temp = await Course.find({_id: courses[i]});
+     var newName = temp[0].name;
+     names.push(newName);
+   }
+   res.json(names);*/
  });
 
 //returns information about a course
