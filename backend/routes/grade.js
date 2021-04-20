@@ -19,18 +19,6 @@ router.route('/').post((req, res) => {
       .catch(err => res.status(400).json('Error: ' + err));
 });
 
-//router.route('/').delete((req, res) => {
-//  Grade.findByIdAndDelete(req.body.gradeID)
-//    .then(() => res.json('Grade deleted!'))
-//    .catch(err => res.status(400).json('Error: ' + err));
-//});
-
-//router.route('/').get((req, res) => {
-//  Grade.find({})
-//  .then(grades => res.json(grades))
-//  .catch(err => res.status(400).json('Error: ' + err));
-//});
-
 //Returns an individual grade given a course
 //requires name, courseID, and studentID
 router.route('/individual').get((req,res) => {
@@ -45,6 +33,21 @@ router.route('/').get((req,res) => {
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
+//returns a letter grade for a given course
+router.route('/lettergrade').get(async(req,res) => {
+  var grades = await Grade.find( { courseID: req.body.courseID, studentID: req.body.studentID});
+  var assignedGradesTotal = 0;
+  var gradesTotal = 0;
+  for (var i = 0; i < grades.length; i++) {
+    assignedGradesTotal += grades[i].gradeAssigned;
+    gradesTotal += grades[i].total;
+  }
+  numberGrade = assignedGradesTotal / gradesTotal;
+  numberGrade = numberGrade * 100;
+  res.json(numberGrade);
+  //.then(grades => res.json(grades))
+  //.catch(err => res.status(400).json('Error: ' + err));
+});
 
 //Deletes a grade given grade name, courseID for course grade belongs to, and the studentID
 //that the grade belongs to 
