@@ -1,28 +1,69 @@
 // useState is the API to hold the state of the user.
 import React, { Component } from "react";
-import { BrowserRouter, Route, Switch, Link, Redirect } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
+import Academic_Records from "./components/Academic_Records";
+import Courses from "./components/Courses";
 import NavBar from "./components/NavBar";
 import About from "./components/About";
+import Logout from "./components/logout";
+import Dashboard from "./components/Dashboard";
+import Personal_info from "./components/Personal_info";
+import ProtectedRoute from "./components/protectedRoute";
+import auth from "./services/authService";
+import { BrowserRouter, Route, Switch, Link, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import jwtDecode from "jwt-decode";
 
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 
 class App extends Component {
+  state = {};
+
+  // Gives the current user object
+  componentDidMount() {
+    const user = auth.getCurrentUser();
+    this.setState({ user });
+
+    /*try {
+      const jwt = localStorage.getItem("token");
+      const user = jwtDecode(jwt);
+      console.log(user);
+      this.setState({ user });
+    } catch (ex) {}
+    */
+  }
+
   render() {
+    const { user } = this.state;
     return (
       <React.Fragment>
         <ToastContainer />
-        <NavBar />
+        <NavBar user={user} />
         <main className="container">
           <Switch>
             <Route path="/" exact component={LoginForm} />
             <Route path="/components/login" exact component={LoginForm} />
-
             <Route path="/components/register" exact component={RegisterForm} />
             <Route path="/components/about" exact component={About} />
+            <Route path="/components/logout" exact component={Logout} />
+            <Route path="/components/dashboard" exact component={Dashboard} />
+            <ProtectedRoute
+              path="/components/personalinfo"
+              exact
+              component={Personal_info}
+            />
+            <ProtectedRoute
+              path="/components/courses"
+              exact
+              component={Courses}
+            />
+            <ProtectedRoute
+              path="/components/academicrecords"
+              exact
+              component={Academic_Records}
+            />
 
             <Redirect from="/" exact to="/" />
             <Redirect to="/not-found" />

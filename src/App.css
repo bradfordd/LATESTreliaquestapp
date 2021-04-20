@@ -69,3 +69,7 @@ nav {
   align-items: center;
   list-style: none;
 }
+
+.button-wrapper .btn {
+  margin-bottom: 5px;
+}
