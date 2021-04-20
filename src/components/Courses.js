@@ -1,11 +1,38 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 class Courses extends Component {
-  state = {
-    courses: [],
-  };
+  constructor(props) {
+    super(props);
 
-  handleAdd = () => {};
+    this.deleteCourse = this.deleteCourse.bind(this);
+
+    this.state = { courses: [] };
+  }
+
+  componentDidMount() {
+    axios
+      .get("http://localhost:8080/components/course/names")
+      .then(response => {
+        this.setState({ courses: response.data });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  courseList() {
+    return this.state.courses.map(currentcourse => {
+      return (
+        <Course
+          course={currentcourse}
+          deleteExercise={this.deleteExercise}
+          key={currentcourse._id}
+        />
+      );
+    });
+  }
 
   render() {
     return (
