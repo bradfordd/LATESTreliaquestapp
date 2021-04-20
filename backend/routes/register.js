@@ -9,7 +9,7 @@ const Register = require("../models/registermodel");
 const Course = require("../models/coursemodel");
 let Grade = require('../models/grademodel');
 
-function letterGradeCalculator(gradesAssigned, totals) {
+/*function letterGradeCalculator(gradesAssigned, totals) {
   var gradeAssignedTotal = 0;
   var totalPointsAvailable = 0;
   if (gradesAssigned.length == 0) {
@@ -40,7 +40,7 @@ function letterGradeCalculator(gradesAssigned, totals) {
   else {
     return "F";
   }
-}
+}*/
 router.route("/").post((req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -119,7 +119,7 @@ router.route('/courses').post((req, res) => {
 });
 
 //returns the names of the courses
-//requires studentID
+//requires courseID
 router.route('/coursesname').get((req,res) => {
   //var array1 = (70);
   //var array2 = (100);
@@ -127,15 +127,10 @@ router.route('/coursesname').get((req,res) => {
   //const studentID = req.body.studentID;
   //var student = Register.find({ _id: studentID}).assignedCoursesIDs
   //const studentID = req.body.studentID;
-  //Register.find({_id: studentID}) 
-  //.then(register => 
-  //  res.json(register)
-  //  )
-  const studentID = req.body.studentID;
-  myCursor = Register.find({_id: studentID});
-  while (myCursor.hasNext()) {
-    print(tojson(myCursor.next()));
-}
+  Course.find({_id: courseID}) 
+  .then(register => 
+    res.json(register)
+    )
 });
 
 //Cascading delete to remove a student from a course

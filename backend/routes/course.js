@@ -9,23 +9,39 @@
 const express = require('express');
 const router = express.Router();
 let Course = require('../models/coursemodel');
+const Register = require("../models/registermodel");
 
-//posts a new course, requires name, teacherAssigned
-router.route('/').post((req, res) => {
+//posts a new course, requires name, teacherassigned, and teacherID
+router.route('/').post(async(req, res) => {
     const name = req.body.name;
     const teacherAssigned = req.body.teacherAssigned;
     const teacherID = req.body.teacherID;
     const students = [];
-    //for (i = 0; i < req.body.students.length; i++) {
-    //    students.push(req.body.students[i])
-    //}
-
+   
     const newCourse = new Course({name, teacherAssigned, teacherID, students});
-  
-    newCourse.save()
-      .then(() => res.json('Course added!'))
-      .catch(err => res.status(400).json('Error: ' + err));
+    newCourse.save();
+    const newCourseID = newCourse._id;
+     Register.updateOne(
+      { _id: teacherID },
+      { $push: { assignedCoursesIDs: newCourseID } })
+    .then(res.json("Course Added!"))   
+   .catch(err => res.status(400).json('Error: ' + err));
 });
+
+//returns list of course names
+router.route('/names').get(async(req,res) => {
+   var names = [];
+   var courses = [];
+   for (var i = 0; i < req.body.courses.length; i++) {
+     courses.push(req.body.courses[i]);
+   }
+   for (var i = 0; i < courses.length; i++) {
+     var temp = await Course.find({_id: courses[i]});
+     var newName = temp[0].name;
+     names.push(newName);
+   }
+   res.json(names);
+ });
 
 //returns information about a course
 //requires course ID
@@ -49,6 +65,21 @@ router.route('/noTeacher').post((req, res) => {
    newCourse.save()
      .then(() => res.json('Course added!'))
      .catch(err => res.status(400).json('Error: ' + err));
+});
+
+//Assigns a teacher to a course, requires teacherID 
+//and courseID, and teacher name
+router.route('/teacherAssignment').put((req, res) => {
+   //const courseID = req.body.courseID;
+   //const teacherID = req.body.teacherID;
+   //const name = req.body.name;
+
+   //Course.updateOne({courseID : courseID});
+   
+ 
+   //newCourse.save()
+   //  .then(() => res.json('Course added!'))
+   //  .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('')

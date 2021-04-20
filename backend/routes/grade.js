@@ -41,7 +41,7 @@ router.route('/individual').get((req,res) => {
 
 //gets all grades of the given courseID and studentID
 //(all of a students individual grades in a course)
-router.route('/course').get(async(req,res) => {
+/*router.route('/course').get(async(req,res) => {
   var names = [];
   var courses = [];
   for (var i = 0; i < req.body.courses.length; i++) {
@@ -52,10 +52,8 @@ router.route('/course').get(async(req,res) => {
     var newName = temp[0].name;
     names.push(newName);
   }
-
-  //Grade.findMany( {courseID: req.body.courseID, studentID: req.body.studentID})
   res.json(names);
-});
+});*/
 
 //Deletes a grade given grade name, courseID for course grade belongs to, and the studentID
 //that the grade belongs to 
