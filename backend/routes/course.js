@@ -36,6 +36,21 @@ router.route('/allcourses').get(async(req,res) => {
      .catch(err => res.status(400).json('Error: ' + err));
 });
 
+//returns all the courses a student is currently enrolled in
+//requires studentID
+router.route('/studentcourses').get(async(req,res) => {
+   const studentID = req.body.studentID;
+   var student = await Register.find({_id : studentID});
+   var assignedCoursesIDs = student[0].assignedCoursesIDs;
+   var courseInformation = [];
+   for (var i = 0; i < assignedCoursesIDs.length; i++) {
+    var tempInformation = await Course.find({_id : assignedCoursesIDs[i]});
+    courseInformation.push(tempInformation);  
+   }
+   res.json(courseInformation);
+     //.then(course => res.json(course))
+     //.catch(err => res.status(400).json('Error: ' + err));
+});
 //returns list of course names
 router.route('/names').get(async(req,res) => {
    var names = [];
