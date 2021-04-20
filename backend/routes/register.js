@@ -16,22 +16,29 @@ function letterGradeCalculator(gradesAssigned, totals) {
     return 'U';
   }
   for (var i = 0; i < gradesAssigned.length; i++){
+    console.log(gradesAssigned);
     gradesAssignedTotal += gradesAssigned[i];
+    console.log(totals);
     totalPointsAvailable += totals[i];
   }
+  gradeAssignedTotal = gradeAssignedTotal * 100;
+  totalPointsAvailable = totalPointsAvailable * 100;
   var grade = gradeAssignedTotal / totalPointsAvailable;
-  grade = grade * 100;
-  switch(grade) {
-    case (grade >= 90):
-      return 'A';
-    case (grade >= 80):
-      return 'B';
-    case (grade >= 70):
-      return 'C';
-    case (grade >= 60):
-      return 'D';
-    default:
-      return 'F';
+  grade = grade / 100;
+  if (grade >= 90) {
+    return "A";
+  }
+  else if (grade >= 80) {
+    return "B";
+  }
+  else if (grade >= 70) {
+    return "C";
+  }
+  else if (grade >= 60) {
+    return "D";
+  }
+  else {
+    return "F";
   }
 }
 router.route("/").post((req, res) => {
@@ -113,12 +120,13 @@ router.route('/courses').post((req, res) => {
 
 //returns all IDs of the courses a student is taking
 router.route('/courses').get((req,res) => {
-  var array1 = (60);
-  var array2 = (100);
-  const letter = letterGradeCalculator(array1, array2);
+  //var array1 = (70);
+  //var array2 = (100);
+  //const letter = letterGradeCalculator(...array1, ...array2);
   //const studentID = req.body.studentID;
   //var student = Register.find({ _id: studentID}).assignedCoursesIDs
-  res.json(letter)
+  
+  res.json()
 });
 
 //Cascading delete to remove a student from a course
