@@ -10,6 +10,8 @@ export function login(email, password) {
 
 export function logout() {
   localStorage.removeItem("token");
+  localStorage.removeItem("teacher");
+  localStorage.removeItem("admin");
 }
 
 export function getCurrentUser() {

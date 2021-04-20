@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 
 class Courses extends Component {
-  state = {};
+  state = {
+    courses: [],
+  };
 
   handleAdd = () => {};
 
