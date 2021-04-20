@@ -9,38 +9,7 @@ const Register = require("../models/registermodel");
 const Course = require("../models/coursemodel");
 let Grade = require('../models/grademodel');
 
-/*function letterGradeCalculator(gradesAssigned, totals) {
-  var gradeAssignedTotal = 0;
-  var totalPointsAvailable = 0;
-  if (gradesAssigned.length == 0) {
-    return 'U';
-  }
-  for (var i = 0; i < gradesAssigned.length; i++){
-    console.log(gradesAssigned);
-    gradesAssignedTotal += gradesAssigned[i];
-    console.log(totals);
-    totalPointsAvailable += totals[i];
-  }
-  gradeAssignedTotal = gradeAssignedTotal * 100;
-  totalPointsAvailable = totalPointsAvailable * 100;
-  var grade = gradeAssignedTotal / totalPointsAvailable;
-  grade = grade / 100;
-  if (grade >= 90) {
-    return "A";
-  }
-  else if (grade >= 80) {
-    return "B";
-  }
-  else if (grade >= 70) {
-    return "C";
-  }
-  else if (grade >= 60) {
-    return "D";
-  }
-  else {
-    return "F";
-  }
-}*/
+
 router.route("/").post((req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -116,21 +85,6 @@ router.route('/courses').post((req, res) => {
     { $push: { students: studentID } })
   .then(register => res.json("student added!"))
   .catch(err => res.status(400).json('Error: ' + err))
-});
-
-//returns the names of the courses
-//requires courseID
-router.route('/coursesname').get((req,res) => {
-  //var array1 = (70);
-  //var array2 = (100);
-  //const letter = letterGradeCalculator(...array1, ...array2);
-  //const studentID = req.body.studentID;
-  //var student = Register.find({ _id: studentID}).assignedCoursesIDs
-  //const studentID = req.body.studentID;
-  Course.find({_id: courseID}) 
-  .then(register => 
-    res.json(register)
-    )
 });
 
 //Cascading delete to remove a student from a course
