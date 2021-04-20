@@ -14,12 +14,13 @@ let Course = require('../models/coursemodel');
 router.route('/').post((req, res) => {
     const name = req.body.name;
     const teacherAssigned = req.body.teacherAssigned;
+    const teacherID = req.body.teacherID;
     const students = [];
     //for (i = 0; i < req.body.students.length; i++) {
     //    students.push(req.body.students[i])
     //}
 
-    const newCourse = new Course({name, teacherAssigned, students});
+    const newCourse = new Course({name, teacherAssigned, teacherID, students});
   
     newCourse.save()
       .then(() => res.json('Course added!'))

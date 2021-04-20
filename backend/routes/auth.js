@@ -34,6 +34,7 @@ router.route("/").post((req, res) => {
               username: user.username,
               admin: user.admin,
               teacher: user.teacher,
+              assignedCoursesIDs: user.assignedCoursesIDs
             },
           });
         }

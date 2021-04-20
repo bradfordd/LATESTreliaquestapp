@@ -10,6 +10,9 @@ const courseSchema = new Schema({
     teacherAssigned:{
         type:String
     },
+    teacherID:{
+        type:String
+    },
     students:{
         type:[String]
     

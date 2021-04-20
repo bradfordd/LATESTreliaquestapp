@@ -118,15 +118,24 @@ router.route('/courses').post((req, res) => {
   .catch(err => res.status(400).json('Error: ' + err))
 });
 
-//returns all IDs of the courses a student is taking
-router.route('/courses').get((req,res) => {
+//returns the names of the courses
+//requires studentID
+router.route('/coursesname').get((req,res) => {
   //var array1 = (70);
   //var array2 = (100);
   //const letter = letterGradeCalculator(...array1, ...array2);
   //const studentID = req.body.studentID;
   //var student = Register.find({ _id: studentID}).assignedCoursesIDs
-  
-  res.json()
+  //const studentID = req.body.studentID;
+  //Register.find({_id: studentID}) 
+  //.then(register => 
+  //  res.json(register)
+  //  )
+  const studentID = req.body.studentID;
+  myCursor = Register.find({_id: studentID});
+  while (myCursor.hasNext()) {
+    print(tojson(myCursor.next()));
+}
 });
 
 //Cascading delete to remove a student from a course
