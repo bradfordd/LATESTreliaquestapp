@@ -29,6 +29,13 @@ router.route('/').post(async(req, res) => {
    .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/allcourses').get(async(req,res) => {
+   const courseID = req.body.courseID;
+   Course.find()
+     .then(course => res.json(course))
+     .catch(err => res.status(400).json('Error: ' + err));
+});
+
 //returns list of course names
 router.route('/names').get(async(req,res) => {
    var names = [];
