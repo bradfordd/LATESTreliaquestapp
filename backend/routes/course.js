@@ -29,6 +29,7 @@ router.route('/').post(async(req, res) => {
    .catch(err => res.status(400).json('Error: ' + err));
 });
 
+//Gets ALL courses
 router.route('/allcourses').get(async(req,res) => {
    const courseID = req.body.courseID;
    Course.find()
@@ -36,7 +37,23 @@ router.route('/allcourses').get(async(req,res) => {
      .catch(err => res.status(400).json('Error: ' + err));
 });
 
+//returns all the courses a student is currently enrolled in
+//requires studentID
+router.route('/studentcourses').get(async(req,res) => {
+   const studentID = req.body.studentID;
+   var student = await Register.find({_id : studentID});
+   var assignedCoursesIDs = student[0].assignedCoursesIDs;
+   var courseInformation = [];
+   for (var i = 0; i < assignedCoursesIDs.length; i++) {
+    var tempInformation = await Course.find({_id : assignedCoursesIDs[i]});
+    courseInformation.push(tempInformation);  
+   }
+   res.json(courseInformation);
+     //.then(course => res.json(course))
+     //.catch(err => res.status(400).json('Error: ' + err));
+});
 //returns list of course names
+//requires array of course IDs
 router.route('/names').get(async(req,res) => {
    var names = [];
    var courses = [];
@@ -51,6 +68,7 @@ router.route('/names').get(async(req,res) => {
    res.json(names);
  });
 
+ //returns names of instructors given courseIDs
  router.route('/instructorNames').get(async(req,res) => {
    var names = [];
    var courses = [];
@@ -64,35 +82,6 @@ router.route('/names').get(async(req,res) => {
    }
    res.json(names);
  });
-
- //requires courseID array and studentID
- router.route('/lettergrades').get(async(req,res) => {
-   //var courseIDs = [];
-   //const studentID = req.body.studentID;
-   //var letterGrades = [];
-   //for (var i = 0; i < req.body.courseIDs.length; i++){
-   //   courseIDs.push(req.body.courseIDs[i]);
-   //}
-   //var test = await Grade.find({courseID: courseIDs[0], studentID: studentID});
-   //res.json(test);
-   //for (var i = 0; i < courseIDs.length; i++) {
-   //   var assignedGradesTotal = 0;
-   //   var gradesTotal = 0;
-   //   
-   //}
-   /*var names = [];
-   //var courses = [];
-   //for (var i = 0; i < req.body.courses.length; i++) {
-   //  courses.push(req.body.courses[i]);
-   //}
-   //for (var i = 0; i < courses.length; i++) {
-   //  var temp = await Course.find({_id: courses[i]});
-   //  var newName = temp[0].name;
-   //  names.push(newName);
-   }
-   res.json(names);*/
- });
-
 //returns information about a course
 //requires course ID
 router.route('/').get((req, res) => {
@@ -117,6 +106,29 @@ router.route('/noTeacher').post((req, res) => {
      .catch(err => res.status(400).json('Error: ' + err));
 });
 
+//returns array of gradeAverages corresponding to course grades
+//requires studentID and array of courseIDs
+router.route('/gradeAverages').get(async(req,res) => {
+  const courseIDArray = req.body.courseIDs;
+  const studentID = req.body.studentID;
+  var coursesGrades = [];
+  for (var k = 0; k < courseIDArray.length; k++)
+  {
+  var grades = await Grade.find( { courseID: courseIDArray[k], studentID: studentID});
+  //var grades = await Grade.find( { courseID: "12345", studentID: "12345"});
+  //res.json(grades);
+  var assignedGradesTotal = 0;
+  var gradesTotal = 0;
+  for (var i = 0; i < grades.length; i++) {
+    assignedGradesTotal += grades[i].gradeAssigned;
+    gradesTotal += grades[i].total;
+  }
+  numberGrade = assignedGradesTotal / gradesTotal;
+  numberGrade = numberGrade * 100;
+  coursesGrades.push(numberGrade);
+   }
+  res.json(coursesGrades);
+});
 //Assigns a teacher to a course, requires teacherID 
 //and courseID, and teacher name
 router.route('/teacherAssignment').put((req, res) => {
