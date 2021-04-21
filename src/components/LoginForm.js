@@ -48,6 +48,10 @@ class LoginForm extends Form {
           JSON.stringify(response.data.user.teacher)
         );
         localStorage.setItem("admin", JSON.stringify(response.data.user.admin));
+        localStorage.setItem(
+          "studentID",
+          JSON.stringify(response.data.user.id)
+        );
       });
     const teacherToken = localStorage.getItem("teacher");
     const adminToken = localStorage.getItem("admin");
