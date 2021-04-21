@@ -39,7 +39,7 @@ router.route('/allcourses').get(async(req,res) => {
 
 //returns all the courses a student is currently enrolled in
 //requires studentID
-router.route('/studentcourses').get(async(req,res) => {
+router.route('/studentcourses').post(async(req,res) => {
    const studentID = req.body.studentID;
    var student = await Register.find({_id : studentID});
    var assignedCoursesIDs = student[0].assignedCoursesIDs;

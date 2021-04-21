@@ -5,7 +5,7 @@ import axios from "axios";
 const Course = props => (
   <tr>
     <td>{props.course.name}</td>
-    <td>{props.course.teachername}</td>
+    <td>{props.course.teacherAssigned}</td>
     <td>
       <a
         href="#"
@@ -30,32 +30,39 @@ export default class Courses extends Component {
 
   componentDidMount() {
     const studentID = localStorage.getItem("studentID");
+    //console.log(studentID_);
+    
+    /*const body = {
+      studentID: studentID,
+    };*/
+    const body = {
+      studentID: "607e2aba7f6fb05c38340aa7",
+    };
     axios
-      .get("http://localhost:8080/components/course/allcourses", studentID)
+      .post("http://localhost:8080/components/course/studentcourses", body)
       .then(response => {
         this.setState({ courses: response.data });
       })
       .catch(error => {
         console.log(error);
       });
-  }
-
+      }
+      
   deleteCourse() {
-    const studentID_ = localStorage.getItem("studentID");
-
+    /*const studentID_ = localStorage.getItem("studentID");
     const msg = {
       s_id: studentID_,
-      c_id: this.state.courses.id,
+      c_id: this.state.courses._id,
     };
     axios
       .delete("http://localhost:5000/components/register/courses", msg) ////////////////// It needs to remove a course from a student, not a student from a course
       .then(response => {
-        console.log(response.data);
+        //console.log(response.data);
       });
 
     this.setState({
       courses: this.state.courses.filter(el => el._id !== msg.c_id),
-    });
+    });*/
   }
 
   courseList() {
