@@ -5,7 +5,6 @@ import axios from "axios";
 const Course = props => (
   <tr>
     <td>{props.course.name}</td>
-    <td>{console.log(props.course._id)}</td>
     <td>{props.course.teacherAssigned}</td>
     <td>
       <button
@@ -59,18 +58,19 @@ export default class Courses extends Component {
     studentID_ = anotherTempStudentID;
 
     var msg = {
-      s_id: studentID_,
-      c_id: id,
+      courseID: id,
+      studentID: studentID_,
     };
 
     axios
       .delete("http://localhost:8080/components/register/courses", msg)
       .then(response => {
-        console.log(msg.s_id);
+        console.log(response.data);
       });
 
+    console.log(id);
     this.setState({
-      courses: this.state.courses.filter(el => el._id !== id),
+      courses: this.state.courses.filter(el => el._id !== msg.courseID),
     });
   }
 
