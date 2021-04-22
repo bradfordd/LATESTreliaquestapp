@@ -5,16 +5,15 @@ import axios from "axios";
 const Course = props => (
   <tr>
     <td>{props.course.name}</td>
+    <td>{console.log(props.course._id)}</td>
     <td>{props.course.teacherAssigned}</td>
     <td>
-      <a
-        href="#"
-        onClick={() => {
-          props.deleteExercise(props.course._id);
-        }}
+      <button
+        onClick={() => props.deleteCourse(props.course._id)}
+        className="btn btn-danger"
       >
         Drop Course
-      </a>
+      </button>
     </td>
   </tr>
 );
@@ -32,7 +31,7 @@ export default class Courses extends Component {
     var studentID = localStorage.getItem("studentID");
     var tempStudentID = "";
     var anotherTempStudentID = "";
-    //console.log(studentID);
+
     tempStudentID = studentID.replace('"', "");
     anotherTempStudentID = tempStudentID.replace('"', "");
     studentID = anotherTempStudentID;
@@ -49,21 +48,30 @@ export default class Courses extends Component {
       });
   }
 
-  deleteCourse() {
-    /*const studentID_ = localStorage.getItem("studentID");
-    const msg = {
+  deleteCourse(id) {
+    console.log("This course was deleted");
+    var studentID_ = localStorage.getItem("studentID");
+    var tempStudentID = "";
+    var anotherTempStudentID = "";
+
+    tempStudentID = studentID_.replace('"', "");
+    anotherTempStudentID = tempStudentID.replace('"', "");
+    studentID_ = anotherTempStudentID;
+
+    var msg = {
       s_id: studentID_,
-      c_id: this.state.courses._id,
+      c_id: id,
     };
+
     axios
-      .delete("http://localhost:5000/components/register/courses", msg) ////////////////// It needs to remove a course from a student, not a student from a course
+      .delete("http://localhost:8080/components/register/courses", msg)
       .then(response => {
-        //console.log(response.data);
+        console.log(msg.s_id);
       });
 
     this.setState({
-      courses: this.state.courses.filter(el => el._id !== msg.c_id),
-    });*/
+      courses: this.state.courses.filter(el => el._id !== id),
+    });
   }
 
   courseList() {
@@ -71,7 +79,7 @@ export default class Courses extends Component {
       return (
         <Course
           course={currentcourse[0]}
-          deleteExercise={this.deleteExercise}
+          deleteCourse={this.deleteCourse}
           key={currentcourse[0]._id}
         />
       );
@@ -79,20 +87,30 @@ export default class Courses extends Component {
   }
 
   render() {
+    if (this.state.courses.length === 0)
+      return <p>You are currently not enrolled to any courses.</p>;
+
     return (
-      <div className="wrapper">
-        <h2>Courses</h2>
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">Course Name</th>
-              <th scope="col">Instructor Name</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>{this.courseList()}</tbody>
-        </table>
-      </div>
+      <React.Fragment>
+        <div>
+          <Link to="/" className="btn btn-primary">
+            Register for a course
+          </Link>
+        </div>
+        <div className="wrapper">
+          <h2>Courses</h2>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">Course Name</th>
+                <th scope="col">Instructor Name</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>{this.courseList()}</tbody>
+          </table>
+        </div>
+      </React.Fragment>
     );
   }
 }
