@@ -129,19 +129,22 @@ router.route('/gradeAverages').get(async(req,res) => {
    }
   res.json(coursesGrades);
 });
-//Assigns a teacher to a course, requires teacherID 
-//and courseID, and teacher name
-router.route('/teacherAssignment').put((req, res) => {
-   //const courseID = req.body.courseID;
-   //const teacherID = req.body.teacherID;
-   //const name = req.body.name;
 
-   //Course.updateOne({courseID : courseID});
-   
- 
-   //newCourse.save()
-   //  .then(() => res.json('Course added!'))
-   //  .catch(err => res.status(400).json('Error: ' + err));
+//gets all courses a student is NOT currently signed up for
+//requires studentID
+router.route('/allCoursesStudentDoesntHave').post(async(req, res) => {
+   const studentID = req.body.studentID;
+   var student = await Register.find( { _id: studentID});
+   const studentAssignedCourses = student[0].assignedCoursesIDs;
+   //res.json(studentAssignedCourses);
+   const allCourses = await Course.find();
+   for (var i = 0; i < studentAssignedCourses.length; i++) {
+     for (var j = 0; j < allCourses.length; j++) {
+      if (allCourses[j]._id == studentAssignedCourses[i])
+        allCourses.splice(j, 1);
+     }
+   }
+   res.json(allCourses);
 });
 
 router.route('')
