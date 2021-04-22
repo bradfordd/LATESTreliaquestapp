@@ -10,10 +10,10 @@ const Course = props => (
       <a
         href="#"
         onClick={() => {
-          props.deleteExercise(props.course.id);
+          props.deleteExercise(props.course._id);
         }}
       >
-        delete
+        Drop Course
       </a>
     </td>
   </tr>
@@ -29,14 +29,15 @@ export default class Courses extends Component {
   }
 
   componentDidMount() {
-    const studentID = localStorage.getItem("studentID");
-    //console.log(studentID_);
-    
-    /*const body = {
+    var studentID = localStorage.getItem("studentID");
+    var tempStudentID = "";
+    var anotherTempStudentID = "";
+    //console.log(studentID);
+    tempStudentID = studentID.replace('"', "");
+    anotherTempStudentID = tempStudentID.replace('"', "");
+    studentID = anotherTempStudentID;
+    var body = {
       studentID: studentID,
-    };*/
-    const body = {
-      studentID: "607e2aba7f6fb05c38340aa7",
     };
     axios
       .post("http://localhost:8080/components/course/studentcourses", body)
@@ -46,8 +47,8 @@ export default class Courses extends Component {
       .catch(error => {
         console.log(error);
       });
-      }
-      
+  }
+
   deleteCourse() {
     /*const studentID_ = localStorage.getItem("studentID");
     const msg = {
@@ -69,11 +70,9 @@ export default class Courses extends Component {
     return this.state.courses.map(currentcourse => {
       return (
         <Course
-          course={currentcourse}
-          course_name={currentcourse.name}
-          teachername={currentcourse.teacherAssigned}
+          course={currentcourse[0]}
           deleteExercise={this.deleteExercise}
-          key={currentcourse._id}
+          key={currentcourse[0]._id}
         />
       );
     });
