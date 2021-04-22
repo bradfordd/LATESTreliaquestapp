@@ -89,14 +89,16 @@ router.route('/courses').post((req, res) => {
 
 //Cascading delete to remove a student from a course
 //requires studentID and courseID
-router.route('/courses').delete((req, res) => {
+router.route('/deletecourses').put((req, res) => {
   const courseID = req.body.courseID;
   const studentID = req.body.studentID;
-  
-  Register.updateOne(
-    { _id: studentID },
+  Register.findByIdAndUpdate({ _id: studentID },
     { $pull: { assignedCoursesIDs: courseID } })
   .catch(err => res.status(400).json('Error: ' + err));
+  /*Register.updateOne(
+    { _id: studentID },
+    { $pull: { assignedCoursesIDs: courseID } })
+  .catch(err => res.status(400).json('Error: ' + err));*/
   Grade.deleteMany(
     {courseID : courseID,
     studentID : studentID}
