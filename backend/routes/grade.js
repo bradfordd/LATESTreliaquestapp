@@ -21,7 +21,7 @@ router.route('/').post((req, res) => {
 
 //Returns an individual grade given a course
 //requires name, courseID, and studentID
-router.route('/individual').get((req,res) => {
+router.route('/individual').post((req,res) => {
   Grade.findOne( {name: req.body.name, courseID: req.body.courseID, studentID: req.body.studentID})
   .then(grades => res.json(grades))
   .catch(err => res.status(400).json('Error: ' + err));
@@ -34,7 +34,7 @@ router.route('/').get((req,res) => {
 });
 
 //returns a letter grade for a given course
-router.route('/lettergrade').get(async(req,res) => {
+router.route('/lettergrade').post(async(req,res) => {
   var grades = await Grade.find( { courseID: req.body.courseID, studentID: req.body.studentID});
   var assignedGradesTotal = 0;
   var gradesTotal = 0;
