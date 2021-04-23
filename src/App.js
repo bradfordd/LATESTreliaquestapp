@@ -11,6 +11,7 @@ import Dashboard from "./components/Dashboard";
 import Personal_info from "./components/Personal_info";
 import ProtectedRoute from "./components/protectedRoute";
 import auth from "./services/authService";
+import CourseForm from "./components/CourseForm";
 import { BrowserRouter, Route, Switch, Link, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import jwtDecode from "jwt-decode";
@@ -63,6 +64,11 @@ class App extends Component {
               path="/components/academicrecords"
               exact
               component={Academic_Records}
+            />
+            <ProtectedRoute
+              path="/components/courseform"
+              exact
+              component={CourseForm}
             />
 
             <Redirect from="/" exact to="/" />

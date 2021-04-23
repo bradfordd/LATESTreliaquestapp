@@ -63,12 +63,11 @@ export default class Courses extends Component {
     };
 
     axios
-      .delete("http://localhost:8080/components/register/courses", msg)
+      .put("http://localhost:8080/components/register/deletecourses", msg)
       .then(response => {
         console.log(response.data);
       });
 
-    console.log(id);
     this.setState({
       courses: this.state.courses.filter(el => el._id !== msg.courseID),
     });
@@ -93,7 +92,7 @@ export default class Courses extends Component {
     return (
       <React.Fragment>
         <div>
-          <Link to="/" className="btn btn-primary">
+          <Link to="/components/courseform" className="btn btn-primary">
             Register for a course
           </Link>
         </div>
