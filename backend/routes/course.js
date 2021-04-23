@@ -147,5 +147,37 @@ router.route('/allCoursesStudentDoesntHave').post(async(req, res) => {
    res.json(allCourses);
 });
 
+//returns all the courses a teacher is currently enrolled in
+//requires teacherid
+router.route('/teachercourses').post(async(req,res) => {
+  const teacherID = req.body.teacherID;
+  var teacher = await Register.find({_id : teacherID});
+  var assignedCoursesIDs = teacher[0].assignedCoursesIDs;
+  var courseInformation = [];
+  for (var i = 0; i < assignedCoursesIDs.length; i++) {
+   var tempInformation = await Course.find({_id : assignedCoursesIDs[i]});
+   courseInformation.push(tempInformation);  
+  }
+  res.json(courseInformation);
+    //.then(course => res.json(course))
+    //.catch(err => res.status(400).json('Error: ' + err));
+});
+
+//returns all students enrolled in a course
+//requires courseID
+router.route('/studentsInCourse').post(async(req,res) => {
+  const courseID = req.body.courseID;
+  var courses = await Course.find({_id : courseID});
+  var students = courses[0].students;
+  var studentInfo = [];
+  for (var i = 0; i < students.length; i++) {
+   var tempInformation = await Register.find({_id : students[i]});
+   studentInfo.push(tempInformation);  
+  }
+  res.json(studentInfo);
+    //.then(course => res.json(course))
+    //.catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('')
 module.exports = router;
