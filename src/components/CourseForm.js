@@ -10,7 +10,7 @@ class CourseForm extends Form {
 
     //this.selectCourse = this.selectCourse.bind(this);
     this.onChangeCourse = this.onChangeCourse.bind(this);
-    //this.onSubmit = this.onSubmit.bind(this);
+    this.doSubmit = this.doSubmit.bind(this);
 
     this.state = {
       course_id: "",
@@ -51,7 +51,7 @@ class CourseForm extends Form {
         if (response.data.length > 0) {
           this.setState({
             courses: response.data.map(course => course.name),
-            course_id: response.data[0],
+            course_id: response.data.course,
             //id: response.data._id,
           });
         }
@@ -63,6 +63,7 @@ class CourseForm extends Form {
   }
 
   onChangeCourse(e) {
+    console.log(this.state.course_id);
     this.setState({
       course_id: e.target.value,
     });
