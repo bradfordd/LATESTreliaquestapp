@@ -13,10 +13,8 @@ class CourseForm extends Form {
     //this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      data: {
-        course_id: "",
-        //id: "",
-      },
+      course_id: "",
+      //id: "",
       courses: [],
       errors: {},
     };
@@ -53,7 +51,7 @@ class CourseForm extends Form {
         if (response.data.length > 0) {
           this.setState({
             courses: response.data.map(course => course.name),
-            course_id: response.data,
+            course_id: response.data[0],
             //id: response.data._id,
           });
         }
@@ -68,6 +66,7 @@ class CourseForm extends Form {
     this.setState({
       course_id: e.target.value,
     });
+    console.log(this.state.course_id);
   }
   doSubmit(e) {
     e.preventDefault(e);
@@ -83,9 +82,10 @@ class CourseForm extends Form {
     tempStudentID = studentID.replace('"', "");
     anotherTempStudentID = tempStudentID.replace('"', "");
     studentID = anotherTempStudentID;
+    console.log(this.state);
     var body = {
       studentID: studentID,
-      courseID: this.state.data.course_id,
+      courseID: this.state.course_id,
     };
     console.log("Testing");
     axios
@@ -122,7 +122,6 @@ class CourseForm extends Form {
                 return (
                   <option key={course_id} value={course_id}>
                     {course_id}
-                    {console.log(course_id)}
                   </option>
                 );
               })}
