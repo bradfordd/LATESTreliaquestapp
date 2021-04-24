@@ -50,8 +50,8 @@ class CourseForm extends Form {
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
-            courses: response.data.map(course => course.name),
-            course_id: response.data.course,
+            courses: response.data.map(course => course._id),
+            course_id: response.data[0]._id,
             //id: response.data._id,
           });
         }
@@ -63,7 +63,7 @@ class CourseForm extends Form {
   }
 
   onChangeCourse(e) {
-    console.log(this.state.course_id);
+    console.log(this.state);
     this.setState({
       course_id: e.target.value,
     });
@@ -84,6 +84,16 @@ class CourseForm extends Form {
     anotherTempStudentID = tempStudentID.replace('"', "");
     studentID = anotherTempStudentID;
     console.log(this.state);
+    /*return this.state.courses.map(currentcourse => {
+      return (
+        <Course
+          course={currentcourse[0]}
+          deleteCourse={this.deleteCourse}
+          key={currentcourse[0]._id}
+        />
+      );
+    });*/
+
     var body = {
       studentID: studentID,
       courseID: this.state.course_id,
