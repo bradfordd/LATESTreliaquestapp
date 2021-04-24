@@ -4,7 +4,7 @@ import Form from "./Form";
 import axios from "axios";
 //import e from "express";
 
-class CourseForm extends Form {
+class CourseForm extends Component {
   constructor(props) {
     super(props);
 
@@ -146,6 +146,25 @@ class CourseForm extends Form {
             />
           </div>
         </form>
+
+        <div></div>
+        <div className="wrapper">
+          <h2>Reference</h2>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">Course Name</th>
+                <th scope="col">Course ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }

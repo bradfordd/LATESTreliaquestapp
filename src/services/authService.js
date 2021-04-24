@@ -12,6 +12,8 @@ export function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("teacher");
   localStorage.removeItem("admin");
+  localStorage.removeItem("studentID");
+  localStorage.removeItem("courseID");
 }
 
 export function getCurrentUser() {
