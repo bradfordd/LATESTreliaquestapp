@@ -60,7 +60,7 @@ class LoginForm extends Form {
       t_Token = localStorage.getItem("token");
     }
     if (t_Token) {
-      window.location = "/components/courses";
+      window.location = "/components/about";
       // this.props.history.push("/components/about");
     }
 
