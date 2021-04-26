@@ -41,6 +41,7 @@ export default class Courses extends Component {
       .post("http://localhost:8080/components/course/studentcourses", body)
       .then(response => {
         this.setState({ courses: response.data });
+        console.log("Testing");
       })
       .catch(error => {
         console.log(error);

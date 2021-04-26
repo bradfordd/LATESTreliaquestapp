@@ -4,18 +4,27 @@ import Form from "./Form";
 import axios from "axios";
 //import e from "express";
 
-class CourseForm extends Component {
+const Table = props => (
+  <tr>
+    <td>{props.course.name}</td>
+    <td>{props.course._id}</td>
+  </tr>
+);
+
+export default class CourseForm extends Component {
   constructor(props) {
     super(props);
 
     //this.selectCourse = this.selectCourse.bind(this);
     this.onChangeCourse = this.onChangeCourse.bind(this);
     this.doSubmit = this.doSubmit.bind(this);
+    this.tableList = this.tableList.bind(this);
 
     this.state = {
       course_id: "",
       //id: "",
       courses: [],
+      table: [],
       errors: {},
     };
   }
@@ -60,6 +69,25 @@ class CourseForm extends Component {
       .catch(error => {
         console.log(error);
       });
+
+    ///////////////////////////////////
+
+    axios
+      .get("http://localhost:8080/components/course/allcourses")
+      .then(response => {
+        this.setState({ table: response.data });
+        console.log(response.data);
+        console.log(this.state.table);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  tableList() {
+    return this.state.table.map(currentcourse => {
+      return <Table course={currentcourse} key={currentcourse._id} />;
+    });
   }
 
   onChangeCourse(e) {
@@ -111,10 +139,6 @@ class CourseForm extends Component {
     window.location = "/courses";
   }
 
-  renderButton_(label) {
-    return <button className="btn btn-primary">{label}</button>;
-  }
-
   render() {
     return (
       <div className="wrapper">
@@ -147,7 +171,6 @@ class CourseForm extends Component {
           </div>
         </form>
 
-        <div></div>
         <div className="wrapper">
           <h2>Reference</h2>
           <table className="table">
@@ -157,20 +180,13 @@ class CourseForm extends Component {
                 <th scope="col">Course ID</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
+            <tbody>{this.tableList()}</tbody>
           </table>
         </div>
       </div>
     );
   }
 }
-
-export default CourseForm;
 
 // {this.renderInput("course_id", "Course Name")}
 
