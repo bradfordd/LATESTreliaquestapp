@@ -28,6 +28,16 @@ router.route('/').post(async(req, res) => {
     .then(res.json("Course Added!"))   
    .catch(err => res.status(400).json('Error: ' + err));
 });
+//Assigns a teacher to a course
+//Requires a teacherID and courseID
+router.route('/assignTeacher').post(async(req, res) => {
+  const courseID = req.body.courseID;
+  const teacherID = req.body.teacherID;
+  const teacherInfo = Register.find({_id: teacherID});
+  const teacherName = teacherInfo.name;
+  res.json(teacherName);
+  
+});
 
 //Gets ALL courses
 router.route('/allcourses').get(async(req,res) => {
