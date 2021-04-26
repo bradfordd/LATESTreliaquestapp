@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 
-const NavBar = ({ user }) => {
+const NavBar = ({ user, permission }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
@@ -34,11 +34,17 @@ const NavBar = ({ user }) => {
               </NavLink>
             </React.Fragment>
           )}
-          {user && (
+
+          {user && permission === "false" && (
             <React.Fragment>
               <NavLink className="nav-item nav-link" to="/components/courses">
                 Courses
               </NavLink>
+            </React.Fragment>
+          )}
+
+          {user && (
+            <React.Fragment>
               <NavLink
                 className="nav-item nav-link"
                 to="/components/academicrecords"
@@ -90,3 +96,7 @@ export default NavBar;
               Disabled
             </NavLink>
           </li> */
+
+/*<NavLink className="nav-item nav-link" to="/components/courses">
+          Courses
+        </NavLink>*/

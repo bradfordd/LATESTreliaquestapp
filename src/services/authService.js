@@ -25,10 +25,20 @@ export function getCurrentUser() {
   }
 }
 
+export function getCurrentUserPermission() {
+  try {
+    const jwt_p = localStorage.getItem("teacher");
+    return jwt_p;
+  } catch (ex) {
+    return null;
+  }
+}
+
 export default {
   login,
   logout,
   getCurrentUser,
+  getCurrentUserPermission,
 };
 
 // Fix login

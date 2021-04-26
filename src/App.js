@@ -11,6 +11,7 @@ import Dashboard from "./components/Dashboard";
 import Personal_info from "./components/Personal_info";
 import ProtectedRoute from "./components/protectedRoute";
 import auth from "./services/authService";
+import ProtectedRoutePermission from "./components/protectedRoutePermission";
 import CourseForm from "./components/CourseForm";
 import { BrowserRouter, Route, Switch, Link, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -26,6 +27,11 @@ class App extends Component {
   componentDidMount() {
     const user = auth.getCurrentUser();
     this.setState({ user });
+    console.log(user);
+
+    const permission = auth.getCurrentUserPermission();
+    this.setState({ permission });
+    console.log(permission);
 
     /*try {
       const jwt = localStorage.getItem("token");
@@ -38,10 +44,11 @@ class App extends Component {
 
   render() {
     const { user } = this.state;
+    const { permission } = this.state;
     return (
       <React.Fragment>
         <ToastContainer />
-        <NavBar user={user} />
+        <NavBar user={user} permission={permission} />
         <main className="container">
           <Switch>
             <Route path="/" exact component={LoginForm} />
@@ -49,7 +56,16 @@ class App extends Component {
             <Route path="/components/register" exact component={RegisterForm} />
             <Route path="/components/about" exact component={About} />
             <Route path="/components/logout" exact component={Logout} />
-            <Route path="/components/dashboard" exact component={Dashboard} />
+            <Route
+              path="/components/dashboard"
+              render={props => {
+                if (permission === "true" && user)
+                  return <Dashboard {...props} />;
+                else if (permission === "false") {
+                  return <Redirect to="/not-found" />;
+                }
+              }}
+            />
             <ProtectedRoute
               path="/components/personalinfo"
               exact

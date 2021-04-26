@@ -14,13 +14,17 @@ class Dashboard extends Component {
   }
 
   render() {
+    const { permission } = this.props;
+    console.log(this.props.permission);
     return (
       <div className="wrapper">
         <h1>Welcome to the Dashboard!</h1>
         <div>
-          <Link to="/components/personalinfo">
-            {this.renderButton("Personal Information")}
-          </Link>
+          {permission === "false" && (
+            <Link to="/components/personalinfo">
+              {this.renderButton("Personal Information")}
+            </Link>
+          )}
           <Link to="/components/courses">{this.renderButton("Courses")}</Link>
           <Link to="/components/academicrecords">
             {this.renderButton("Academic Records")}
@@ -32,3 +36,26 @@ class Dashboard extends Component {
 }
 
 export default Dashboard;
+
+/*
+render() {
+  const { permission } = this.props;
+  console.log(this.props.permission);
+  return (
+    <div className="wrapper">
+      <h1>Welcome to the Dashboard!</h1>
+      <div>
+        {permission === "false" && (
+          <Link to="/components/personalinfo">
+            {this.renderButton("Personal Information")}
+          </Link>
+        )}
+        <Link to="/components/courses">{this.renderButton("Courses")}</Link>
+        <Link to="/components/academicrecords">
+          {this.renderButton("Academic Records")}
+        </Link>
+      </div>
+    </div>
+  );
+}
+}*/
