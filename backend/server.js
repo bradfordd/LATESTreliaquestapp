@@ -29,12 +29,14 @@ const gradeRouter = require("./routes/grade");
 const courseRouter = require("./routes/course");
 const loginRouter = require("./routes/login");
 const authRouter = require("./routes/auth");
+const gradeaverageRouter = require("./routes/gradeaverage");
 
 app.use("/components/grades", gradeRouter);
 app.use("/components/register", registerRouter);
 app.use("/components/course", courseRouter);
 app.use("/components/login", loginRouter);
 app.use("/components/auth", authRouter);
+app.use("/components/gradeaverage", gradeaverageRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

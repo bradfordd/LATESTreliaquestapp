@@ -131,8 +131,6 @@ router.route('/gradeAverages').get(async(req,res) => {
   for (var k = 0; k < courseIDArray.length; k++)
   {
   var grades = await Grade.find( { courseID: courseIDArray[k], studentID: studentID});
-  //var grades = await Grade.find( { courseID: "12345", studentID: "12345"});
-  //res.json(grades);
   var assignedGradesTotal = 0;
   var gradesTotal = 0;
   for (var i = 0; i < grades.length; i++) {
@@ -143,6 +141,39 @@ router.route('/gradeAverages').get(async(req,res) => {
   numberGrade = numberGrade * 100;
   coursesGrades.push(numberGrade);
    }
+  res.json(coursesGrades);
+});
+
+//Requires courseID
+router.route('/gradeAveragesCourse').post(async(req,res) => {
+  const courseID = req.body.courseID;
+  
+  const courseInfo = await Course.find({_id: courseID});
+  const students = courseInfo[0].students;
+  //res.json(students);
+  //var coursesGrades = [];
+  for (var m = 0; m < students.length; m++) {
+    var studentID = students[m];
+    var studentInfo = await Register.find({_id : studentID});
+    //var studentInfo = await Register.findById(studentID);
+    res.json(studentInfo);
+    const studentName = studentInfo.name;
+    const courseIDArray = studentInfo.assignedCoursesIDs;
+    //res.json(studentName);
+  for (var k = 0; k < courseIDArray.length; k++)
+  {
+  var grades = await Grade.find( { courseID: courseIDArray[k], studentID: studentID});
+  var assignedGradesTotal = 0;
+  var gradesTotal = 0;
+  for (var i = 0; i < grades.length; i++) {
+    assignedGradesTotal += grades[i].gradeAssigned;
+    gradesTotal += grades[i].total;
+  }
+  numberGrade = assignedGradesTotal / gradesTotal;
+  numberGrade = numberGrade * 100;
+  coursesGrades.push(numberGrade);
+  }
+}
   res.json(coursesGrades);
 });
 
