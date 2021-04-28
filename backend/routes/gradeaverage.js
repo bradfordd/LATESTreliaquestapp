@@ -50,7 +50,7 @@ router.route('/update').post(async(req, res) => {
 });
 
 //requires courseID
-router.route('/').get(async(req, res) => {
+router.route('/entireCourse').put(async(req, res) => {
     //const grade = Number(req.body.grade);
     const courseID = req.body.courseID;
     //const studentID = req.body.studentID;
