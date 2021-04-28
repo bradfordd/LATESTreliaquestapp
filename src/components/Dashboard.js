@@ -8,9 +8,12 @@ import "../App.css";
 const Course = props => (
   <tr>
     <td>{props.course.name}</td>
+
     <td>
       <button
-        onClick={() => props.navigateToCourse(props.course.name)}
+        onClick={() =>
+          props.navigateToCourse(props.course.name, props.course._id)
+        }
         className="btn btn-danger"
       >
         View Course
@@ -18,6 +21,10 @@ const Course = props => (
     </td>
   </tr>
 );
+
+/* <td>
+      {localStorage.setItem("courseID", JSON.stringify(props.course._id))}
+    </td> */
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -29,6 +36,7 @@ export default class Dashboard extends Component {
   }
   teacherID;
   componentDidMount() {
+    localStorage.removeItem("courseID");
     var teacherID = localStorage.getItem("studentID");
     var tempStudentID = "";
     var anotherTempStudentID = "";
@@ -62,13 +70,14 @@ export default class Dashboard extends Component {
     });
   }
 
-  navigateToCourse(name_of_course) {
+  navigateToCourse(name_of_course, id) {
     console.log(name_of_course);
 
     if (name_of_course === "English") {
       console.log("English page!");
-      window.location = "/components/about";
-    }
+      localStorage.setItem("courseID", JSON.stringify(id));
+      window.location = "/components/allcourses/english";
+    } /*
     if (name_of_course === "English") {
       console.log("English page!");
       window.location = "/components/about";
@@ -92,7 +101,7 @@ export default class Dashboard extends Component {
     if (name_of_course === "English") {
       console.log("English page!");
       window.location = "/components/about";
-    }
+    }*/
   }
 
   render() {

@@ -13,6 +13,10 @@ import ProtectedRoute from "./components/protectedRoute";
 import auth from "./services/authService";
 import ProtectedRoutePermission from "./components/protectedRoutePermission";
 import CourseForm from "./components/CourseForm";
+
+import English from "./components/AllCourses/English";
+import UpdateGradeForm from "./components/AllCourses/UpdateGradeForm";
+
 import { BrowserRouter, Route, Switch, Link, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import jwtDecode from "jwt-decode";
@@ -57,10 +61,40 @@ class App extends Component {
             <Route path="/components/about" exact component={About} />
             <Route path="/components/logout" exact component={Logout} />
             <Route
+              path="/components/academicrecords"
+              render={props => {
+                if (permission === "false" && user)
+                  return <Academic_Records {...props} />;
+                else if (permission === "true") {
+                  return <Redirect to="/not-found" />;
+                }
+              }}
+            />
+            <Route
+              path="/components/allcourses/updategradeform"
+              render={props => {
+                if (permission === "true" && user)
+                  return <UpdateGradeForm {...props} />;
+                else if (permission === "false") {
+                  return <Redirect to="/not-found" />;
+                }
+              }}
+            />
+            <Route
               path="/components/dashboard"
               render={props => {
                 if (permission === "true" && user)
                   return <Dashboard {...props} />;
+                else if (permission === "false") {
+                  return <Redirect to="/not-found" />;
+                }
+              }}
+            />
+            <Route
+              path="/components/allcourses/english"
+              render={props => {
+                if (permission === "true" && user)
+                  return <English {...props} />;
                 else if (permission === "false") {
                   return <Redirect to="/not-found" />;
                 }
@@ -76,11 +110,7 @@ class App extends Component {
               exact
               component={Courses}
             />
-            <ProtectedRoute
-              path="/components/academicrecords"
-              exact
-              component={Academic_Records}
-            />
+
             <ProtectedRoute
               path="/components/courseform"
               exact

@@ -51,7 +51,7 @@ const NavBar = ({ user, permission }) => {
             </React.Fragment>
           )}
 
-          {user && (
+          {user && permission === "false" && (
             <React.Fragment>
               <NavLink
                 className="nav-item nav-link"
@@ -59,6 +59,11 @@ const NavBar = ({ user, permission }) => {
               >
                 Academic Records
               </NavLink>
+            </React.Fragment>
+          )}
+
+          {user && (
+            <React.Fragment>
               <NavLink
                 className="nav-item nav-link"
                 to="/components/personalinfo"
