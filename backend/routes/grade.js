@@ -3,16 +3,19 @@ const express = require('express');
 const router = express.Router();
 let Grade = require('../models/grademodel');
 let Course = require('../models/coursemodel');
+const Register = require("../models/registermodel");
 //What we require in a grade post request
 //name, gradeAssigned, total, courseName, courseID (in MongoDB), and studentID(in MongoDB)
-router.route('/').post((req, res) => {
+router.route('/').post(async(req, res) => {
     const name = req.body.name;
     const gradeAssigned = Number(req.body.gradeAssigned);
     const total = Number(req.body.total);
     const courseID = req.body.courseID;
     const studentID = req.body.studentID;
-
-    const newGrade = new Grade({name, gradeAssigned, total, courseID, studentID});
+    const studentInfo = await Register.find({_id: studentID});
+    const studentName = studentInfo.name;
+    res.json(studentName);
+    const newGrade = new Grade({name, gradeAssigned, total, courseID, studentID, studentName});
   
     newGrade.save()
       .then(() => res.json('Grade added!'))
@@ -74,4 +77,13 @@ router.route('/').put((req,res) => {
   .then(() => res.json('Grade updated!'))
       .catch(err => res.status(400).json('Error: ' + err));
 });
+
+//modified version of the grade api
+//requires courseID to return all grades in that course
+router.route('/modified').put(async(req,res) => {
+  const courseID = req.body.courseID;
+  Grade.find( { courseID: courseID})
+  .then(grades => res.json(grades))
+  .catch(err => res.status(400).json('Error: ' + err));
+})
 module.exports = router;

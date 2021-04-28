@@ -2,16 +2,8 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema;
 
-const gradeSchema = new Schema({
-    name:{
-        type:String,
-        required:true
-    },
-    gradeAssigned:{
-        type:Number,
-        required:true
-    },
-    total:{
+const gradeaverageSchema = new Schema({
+    grade:{
         type:Number,
         required:true
     },
@@ -24,10 +16,15 @@ const gradeSchema = new Schema({
         required:true
     },
     studentName:{
-        type:String
+        type:String,
+        required:true
+    },
+    courseName:{
+        type:String,
+        required:true
     }
 });
 
-const Grade = mongoose.model('Grade', gradeSchema);
+const GradeAverage = mongoose.model('GradeAverage', gradeaverageSchema);
 
-module.exports = Grade;
+module.exports = GradeAverage;
