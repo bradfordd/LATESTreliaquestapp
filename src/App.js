@@ -27,11 +27,11 @@ class App extends Component {
   componentDidMount() {
     const user = auth.getCurrentUser();
     this.setState({ user });
-    console.log(user);
+    //console.log(user);
 
     const permission = auth.getCurrentUserPermission();
     this.setState({ permission });
-    console.log(permission);
+    //console.log(permission);
 
     /*try {
       const jwt = localStorage.getItem("token");

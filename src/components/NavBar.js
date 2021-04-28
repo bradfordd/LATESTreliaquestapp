@@ -43,6 +43,14 @@ const NavBar = ({ user, permission }) => {
             </React.Fragment>
           )}
 
+          {user && permission === "true" && (
+            <React.Fragment>
+              <NavLink className="nav-item nav-link" to="/components/dashboard">
+                Dashboard
+              </NavLink>
+            </React.Fragment>
+          )}
+
           {user && (
             <React.Fragment>
               <NavLink

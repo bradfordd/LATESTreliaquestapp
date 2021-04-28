@@ -8,7 +8,14 @@ import "../App.css";
 const Course = props => (
   <tr>
     <td>{props.course.name}</td>
-    <td>{/*this.renderButton("View Course")*/}</td>
+    <td>
+      <button
+        onClick={() => props.navigateToCourse(props.course.name)}
+        className="btn btn-danger"
+      >
+        View Course
+      </button>
+    </td>
   </tr>
 );
 
@@ -16,7 +23,7 @@ export default class Dashboard extends Component {
   constructor(props) {
     super(props);
 
-    this.renderButton = this.renderButton.bind(this);
+    this.navigateToCourse = this.navigateToCourse.bind(this);
 
     this.state = { courses: [] };
   }
@@ -36,7 +43,7 @@ export default class Dashboard extends Component {
       .post("http://localhost:8080/components/course/teachercourses", body)
       .then(response => {
         this.setState({ courses: response.data });
-        console.log(this.state.courses[1]);
+        //console.log(this.state.courses);
       })
       .catch(error => {
         console.log(error);
@@ -47,18 +54,45 @@ export default class Dashboard extends Component {
     return this.state.courses.map(currentcourse => {
       return (
         <Course
-          course={currentcourse}
-          //renderButton={this.renderButton}
-          key={currentcourse._id}
+          course={currentcourse[0]}
+          navigateToCourse={this.navigateToCourse}
+          key={currentcourse[0]._id}
         />
       );
     });
   }
 
-  renderButton(label) {
-    return (
-      <button className="btn btn-primary btn-toolbar mb-3">{label}</button>
-    );
+  navigateToCourse(name_of_course) {
+    console.log(name_of_course);
+
+    if (name_of_course === "English") {
+      console.log("English page!");
+      window.location = "/components/about";
+    }
+    if (name_of_course === "English") {
+      console.log("English page!");
+      window.location = "/components/about";
+    }
+    if (name_of_course === "English") {
+      console.log("English page!");
+      window.location = "/components/about";
+    }
+    if (name_of_course === "English") {
+      console.log("English page!");
+      window.location = "/components/about";
+    }
+    if (name_of_course === "English") {
+      console.log("English page!");
+      window.location = "/components/about";
+    }
+    if (name_of_course === "English") {
+      console.log("English page!");
+      window.location = "/components/about";
+    }
+    if (name_of_course === "English") {
+      console.log("English page!");
+      window.location = "/components/about";
+    }
   }
 
   render() {
