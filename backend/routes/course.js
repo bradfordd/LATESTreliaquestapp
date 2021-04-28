@@ -29,6 +29,22 @@ router.route("/").post(async (req, res) => {
     .then(res.json("Course Added!"))
     .catch(err => res.status(400).json("Error: " + err));
 });
+//Assigns a teacher to a course
+//Requires a teacherID and courseID
+router.route('/assignTeacher').post(async(req, res) => {
+  var courseID = req.body.courseID;
+  var courseID = await Course.find({_id: courseID});
+  courseID = courseID[0]._id;
+  const teacherID = req.body.teacherID;
+  const teacherInfo = await Register.find({_id: teacherID});
+  const teacherName = teacherInfo[0].name;
+  Course.updateOne( {_id: courseID}, {teacherAssigned: teacherName});
+  Register.updateOne(
+    { _id: teacherID },
+    { $push: { assignedCoursesIDs: courseID } })
+  .then(res.json("Course Added!"))   
+ .catch(err => res.status(400).json('Error: ' + err));
+});
 
 //Gets ALL courses
 router.route("/allcourses").get(async (req, res) => {
