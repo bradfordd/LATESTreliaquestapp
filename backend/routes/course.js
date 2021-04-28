@@ -169,12 +169,14 @@ router.route('/teachercourses').post(async(req,res) => {
   const teacherID = req.body.teacherID;
   var teacher = await Register.find({_id : teacherID});
   var assignedCoursesIDs = teacher[0].assignedCoursesIDs;
+  //res.json(assignedCoursesIDs);
   var courseInformation = [];
   for (var i = 0; i < assignedCoursesIDs.length; i++) {
    var tempInformation = await Course.find({_id : assignedCoursesIDs[i]});
+   //res.json(tempInformation);
    courseInformation.push(tempInformation);  
   }
-  courseInformation.shift();
+  //courseInformation.shift();
   res.json(courseInformation);
     //.then(course => res.json(course))
     //.catch(err => res.status(400).json('Error: ' + err));
