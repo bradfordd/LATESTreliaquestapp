@@ -75,7 +75,7 @@ router.route('/').delete((req, res) => {
 router.route('/courses').post((req, res) => {
   const courseID = req.body.courseID;
   const studentID = req.body.studentID;
-  
+
   Register.updateOne(
     { _id: studentID },
     { $push: { assignedCoursesIDs: courseID } })
@@ -84,7 +84,7 @@ router.route('/courses').post((req, res) => {
     { _id: courseID },
     { $push: { students: studentID } })
   .then(register => res.json("student added!"))
-  .catch(err => res.status(400).json('Error: ' + err))
+  .catch(err => res.status(400).json('Error: ' + err));
 });
 
 //Cascading delete to remove a student from a course
