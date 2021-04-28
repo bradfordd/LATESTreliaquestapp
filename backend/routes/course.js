@@ -174,6 +174,7 @@ router.route('/teachercourses').post(async(req,res) => {
    var tempInformation = await Course.find({_id : assignedCoursesIDs[i]});
    courseInformation.push(tempInformation);  
   }
+  courseInformation.shift();
   res.json(courseInformation);
     //.then(course => res.json(course))
     //.catch(err => res.status(400).json('Error: ' + err));
