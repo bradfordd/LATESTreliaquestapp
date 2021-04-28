@@ -4,8 +4,8 @@ import axios from "axios";
 
 const Course = props => (
   <tr>
-    <td>{props.course.name}</td>
-    <td>grade here</td>
+    <td>{props.course.studentName}</td>
+    <td>{props.course.grade}</td>
     <td>
       <button
         onClick={() => props.updateGrade(props.course._id)}
@@ -14,7 +14,6 @@ const Course = props => (
         Update Grade
       </button>
     </td>
-    <td>{props.course._id}</td>
   </tr>
 );
 
@@ -40,7 +39,7 @@ export default class Courses extends Component {
       courseID: courseID,
     };
     axios
-      .post("http://localhost:8080/components/course/studentsInCourse", body)
+      .put("http://localhost:8080/components/gradeaverage/entireCourse", body)
       .then(response => {
         this.setState({ courses: response.data });
         console.log(this.state.courses);
@@ -60,9 +59,9 @@ export default class Courses extends Component {
     return this.state.courses.map(currentcourse => {
       return (
         <Course
-          course={currentcourse[0]}
+          course={currentcourse}
           updateGrade={this.updateGrade}
-          key={currentcourse[0]._id}
+          key={currentcourse._id}
         />
       );
     });
