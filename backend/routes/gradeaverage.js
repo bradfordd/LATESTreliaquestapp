@@ -4,6 +4,7 @@ let Grade = require('../models/grademodel');
 let Course = require('../models/coursemodel');
 const Register = require("../models/registermodel");
 let GradeAverage = require("../models/gradeaveragemodel");
+const { updateOne } = require('../models/grademodel');
 
 
 //requires grade, courseID, and studentID
@@ -24,6 +25,56 @@ router.route('/').post(async(req, res) => {
       .then(() => res.json('Grade added!'))
       .catch(err => res.status(400).json('Error: ' + err));
 });
+
+//returns grade average information for a particular student
+//requires studentID
+router.route('/singleStudent').put(async(req, res) => {
+  //const grade = Number(req.body.grade);
+  const studentID = req.body.studentID;
+  //const studentID = req.body.studentID;
+  //const studentInfo = await Register.find({_id: studentID});
+  //const studentName = studentInfo[0].name;
+  //const courseInfo = await Course.find({_id: courseID});
+  //const courseName = courseInfo[0].name;
+  //res.json(courseName);
+  //const studentName = studentInfo.name;
+  const info = await GradeAverage.find({studentID: studentID});
+  res.json(info);
+  //newGradeAverage.save()
+  //newGrade.save()
+  //  .then(() => res.json('Grade added!'))
+  //  .catch(err => res.status(400).json('Error: ' + err));
+});
+
+
+//adds student to share list
+//requires courseID, and studentID, and studentIDToShareWith
+router.route('/shareGrade').put(async(req, res) => {
+const courseID = req.body.courseID;
+const studentID = req.body.studentID;
+const studentIDToShareWith = req.body.studentIDToShareWith;
+GradeAverage.updateOne(
+  { courseID : courseID, studentID : studentID},
+  {$push: { sharedWith : studentIDToShareWith}})
+  .then(res.json("grade shared!"))
+.catch(err => res.status(400).json('Error: ' + err));
+//const info = await GradeAverage.find({ courseID : courseID, studentID : studentID});
+//res.json(info);
+//const studentID = req.body.studentID;
+//const studentInfo = await Register.find({_id: studentID});
+//const studentName = studentInfo[0].name;
+//const courseInfo = await Course.find({_id: courseID});
+//const courseName = courseInfo[0].name;
+//res.json(courseName);
+//const studentName = studentInfo.name;
+//const info = await GradeAverage.find({courseID: courseID});
+//res.json("grade shared");
+//newGradeAverage.save()
+//newGrade.save()
+//  .then(() => res.json('Grade added!'))
+//  .catch(err => res.status(400).json('Error: ' + err));
+});
+
 
 //updates grade
 //requires grade, courseID, and studentID
@@ -68,4 +119,32 @@ router.route('/entireCourse').put(async(req, res) => {
     //  .catch(err => res.status(400).json('Error: ' + err));
 });
 
+
+//adds student to share list
+//requires courseID, and studentID, and studentIDToShareWith
+router.route('/shareGrade').put(async(req, res) => {
+  const courseID = req.body.courseID;
+  const studentID = req.body.studentID;
+  const studentIDToShareWith = req.body.studentIDToShareWith;
+  GradeAverage.updateOne(
+    { courseID : courseID, studentID : studentID},
+    {$push: { sharedWith : studentIDToShareWith}})
+    .then(res.json("grade shared!"))
+  .catch(err => res.status(400).json('Error: ' + err));
+  //const info = await GradeAverage.find({ courseID : courseID, studentID : studentID});
+  //res.json(info);
+  //const studentID = req.body.studentID;
+  //const studentInfo = await Register.find({_id: studentID});
+  //const studentName = studentInfo[0].name;
+  //const courseInfo = await Course.find({_id: courseID});
+  //const courseName = courseInfo[0].name;
+  //res.json(courseName);
+  //const studentName = studentInfo.name;
+  //const info = await GradeAverage.find({courseID: courseID});
+  //res.json("grade shared");
+  //newGradeAverage.save()
+  //newGrade.save()
+  //  .then(() => res.json('Grade added!'))
+  //  .catch(err => res.status(400).json('Error: ' + err));
+});
 module.exports = router;
