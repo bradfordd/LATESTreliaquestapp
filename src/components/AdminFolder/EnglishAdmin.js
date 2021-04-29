@@ -8,9 +8,7 @@ const Course = props => (
     <td>{props.course.grade}</td>
     <td>
       <button
-        onClick={() =>
-          props.updateGrade(props.course.studentID, props.course.grade)
-        }
+        onClick={() => props.cascadeDelete(props.course.studentID)}
         className="btn btn-danger"
       >
         Remove User From The Database
@@ -23,7 +21,7 @@ export default class English extends Component {
   constructor(props) {
     super(props);
 
-    this.updateGrade = this.updateGrade.bind(this);
+    this.cascadeDelete = this.cascadeDelete.bind(this);
     //this.showTeachers = this.showTeachers.bind(this);
 
     this.state = { courses: [], all_courses: [] };
@@ -72,12 +70,28 @@ export default class English extends Component {
     return this.state.all_courses
   }*/
 
-  updateGrade(id, grade) {
-    console.log(id);
+  cascadeDelete(id) {
+    //console.log(id);
     localStorage.setItem("targetID", JSON.stringify(id));
+
+    console.log(id);
+    var body3 = {
+      studentID: id,
+    };
+    console.log(body3.studentID);
+    axios
+      .put("http://localhost:8080/components/register/cascadingDelete", body3)
+      .then(response => {
+        console.log(response.data);
+        console.log(body3);
+      });
     //localStorage.setItem("grade", JSON.stringify(grade));
 
-    window.location = "/components/allcourses/updategradeform";
+    this.setState({
+      courses: this.state.courses.filter(el => el._id !== body3.studentID),
+    });
+
+    //window.location = "/components/adminfolder/englishadmin";
   }
 
   courseList() {
@@ -85,7 +99,7 @@ export default class English extends Component {
       return (
         <Course
           course={currentcourse}
-          updateGrade={this.updateGrade}
+          cascadeDelete={this.cascadeDelete}
           key={currentcourse._id}
         />
       );
@@ -107,7 +121,6 @@ export default class English extends Component {
               </tr>
             </thead>
             <tbody>
-              {" "}
               <tr>
                 <td>{this.state.all_courses.teacherAssigned}</td>
               </tr>
