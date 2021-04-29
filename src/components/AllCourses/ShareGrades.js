@@ -5,8 +5,9 @@ import axios from "axios";
 
 const Table = props => (
   <tr>
-    <td>{props.course.name}</td>
-    <td>{props.course._id}</td>
+    <td>{props.course.studentName}</td>
+    <td>{props.course.courseName}</td>
+    <td>{props.course.grade}</td>
   </tr>
 );
 
@@ -20,8 +21,7 @@ export default class CourseForm extends Component {
     this.tableList = this.tableList.bind(this);
 
     this.state = {
-      course_id: "",
-      //id: "",
+      target_id: "",
       courses: [],
       table: [],
       errors: {},
@@ -29,17 +29,27 @@ export default class CourseForm extends Component {
   }
 
   schema = {
-    course_id: Joi.string().required().label("Course name"),
+    target_id: Joi.string().required().label("Course name"),
   };
 
-  /*componentDidMount() {
-    this.setState({
-      courses: ["Test course"],
-      course_id: "test course                  ",
-    });
-  }*/
-
   componentDidMount() {
+    axios
+      .get("http://localhost:8080/components/register/students")
+      .then(response => {
+        if (response.data.length > 0) {
+          this.setState({
+            courses: response.data.map(course => course.name),
+            target_id: response.data[0].name,
+          });
+        }
+        //console.log(response.data[0].name);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    ///////////////////////////////////
+
     var studentID = localStorage.getItem("studentID");
     var tempStudentID = "";
     var anotherTempStudentID = "";
@@ -52,31 +62,13 @@ export default class CourseForm extends Component {
     };
     axios
       .post(
-        "http://localhost:8080/components/course/allCoursesStudentDoesntHave",
+        "http://localhost:8080/components/gradeaverage/getSharedGrades",
         body
       )
       .then(response => {
-        if (response.data.length > 0) {
-          this.setState({
-            courses: response.data.map(course => course._id),
-            course_id: response.data[0]._id,
-            //id: response.data._id,
-          });
-        }
-        //console.log(response.data[0].name);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-
-    ///////////////////////////////////
-
-    axios
-      .get("http://localhost:8080/components/course/allcourses")
-      .then(response => {
         this.setState({ table: response.data });
         console.log(response.data);
-        console.log(this.state.table);
+        //console.log(this.state.table);
       })
       .catch(error => {
         console.log(error);
@@ -92,16 +84,12 @@ export default class CourseForm extends Component {
   onChangeCourse(e) {
     console.log(this.state);
     this.setState({
-      course_id: e.target.value,
+      target_id: e.target.value,
     });
-    console.log(this.state.course_id);
+    console.log(this.state.target_id);
   }
   doSubmit(e) {
     e.preventDefault(e);
-
-    /*const course_to_be_added = {
-      course_id: this.state
-    };*/
 
     var studentID = localStorage.getItem("studentID");
     var tempStudentID = "";
@@ -111,19 +99,11 @@ export default class CourseForm extends Component {
     anotherTempStudentID = tempStudentID.replace('"', "");
     studentID = anotherTempStudentID;
     console.log(this.state);
-    /*return this.state.courses.map(currentcourse => {
-      return (
-        <Course
-          course={currentcourse[0]}
-          deleteCourse={this.deleteCourse}
-          key={currentcourse[0]._id}
-        />
-      );
-    });*/
 
     var body = {
       studentID: studentID,
-      courseID: this.state.course_id,
+      courseID: this.state.target_id,
+      studentIDToShareWith: this.state.target_id,
     };
     console.log("Testing");
     axios
@@ -135,43 +115,27 @@ export default class CourseForm extends Component {
         console.log(error);
       });
 
-    var body_2 = {
-      grade: 100,
-      courseID: this.state.course_id,
-      studentID: studentID,
-    };
-
-    console.log(body.courseID);
-    console.log(body.grade);
-    console.log(body.studentID);
-
-    axios
-      .post("http://localhost:8080/components/gradeaverage/", body_2)
-      .then(response => {
-        console.log(response.data);
-      });
-
     window.location = "/components/courses";
   }
 
   render() {
     return (
       <div className="wrapper">
-        <h1>Register for a Course </h1>
+        <h1>Share Information With a Classmate! </h1>
         <form onSubmit={this.doSubmit}>
           <div className="form-group">
-            <label>Select a course </label>
+            <label>Share grade With </label>
             <select
               ref="userInput"
               required
               className="form-control"
-              value={this.state.course_id}
+              value={this.state.target_id}
               onChange={this.onChangeCourse}
             >
-              {this.state.courses.map(function (course_id) {
+              {this.state.courses.map(function (target_id) {
                 return (
-                  <option key={course_id} value={course_id}>
-                    {course_id}
+                  <option key={target_id} value={target_id}>
+                    {target_id}
                   </option>
                 );
               })}
@@ -180,19 +144,20 @@ export default class CourseForm extends Component {
           <div className="form-group">
             <input
               type="submit"
-              value="Register for course"
+              value="Share grades"
               className="btn btn-primary"
             />
           </div>
         </form>
 
         <div className="wrapper">
-          <h2>Reference</h2>
+          <h2>Students' Grades</h2>
           <table className="table">
             <thead>
               <tr>
+                <th scope="col">Student Name</th>
                 <th scope="col">Course Name</th>
-                <th scope="col">Course ID</th>
+                <th scope="col">Grade</th>
               </tr>
             </thead>
             <tbody>{this.tableList()}</tbody>
@@ -203,7 +168,7 @@ export default class CourseForm extends Component {
   }
 }
 
-// {this.renderInput("course_id", "Course Name")}
+// {this.renderInput("target_id", "Course Name")}
 
 /*<div>
             <input
