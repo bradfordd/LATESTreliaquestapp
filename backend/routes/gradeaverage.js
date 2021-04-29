@@ -1,40 +1,34 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-let Grade = require("../models/grademodel");
-let Course = require("../models/coursemodel");
+let Grade = require('../models/grademodel');
+let Course = require('../models/coursemodel');
 const Register = require("../models/registermodel");
 let GradeAverage = require("../models/gradeaveragemodel");
-const { updateOne } = require("../models/grademodel");
+const { updateOne } = require('../models/grademodel');
+
 
 //requires grade, courseID, and studentID
-router.route("/").post(async (req, res) => {
-  const grade = Number(req.body.grade);
-  const courseID = req.body.courseID;
-  const studentID = req.body.studentID;
-  const studentInfo = await Register.find({ _id: studentID });
-  const studentName = studentInfo[0].name;
-  const courseInfo = await Course.find({ _id: courseID });
-  const courseName = courseInfo[0].name;
-  //res.json(courseName);
-  //const studentName = studentInfo.name;
-  const newGradeAverage = new GradeAverage({
-    grade,
-    courseID,
-    studentID,
-    studentName,
-    courseName,
-  });
-  //res.json(newGradeAverage);
-  newGradeAverage
-    .save()
+router.route('/').post(async(req, res) => {
+    const grade = Number(req.body.grade);
+    const courseID = req.body.courseID;
+    const studentID = req.body.studentID;
+    const studentInfo = await Register.find({_id: studentID});
+    const studentName = studentInfo[0].name;
+    const courseInfo = await Course.find({_id: courseID});
+    const courseName = courseInfo[0].name;
+    //res.json(courseName);
+    //const studentName = studentInfo.name;
+    const newGradeAverage = new GradeAverage({grade, courseID, studentID, studentName, courseName});
+    //res.json(newGradeAverage);
+    newGradeAverage.save()
     //newGrade.save()
-    .then(() => res.json("Grade added!"))
-    .catch(err => res.status(400).json("Error: " + err));
+      .then(() => res.json('Grade added!'))
+      .catch(err => res.status(400).json('Error: ' + err));
 });
 
 //returns grade average information for a particular student
 //requires studentID
-router.route("/singleStudent").post(async (req, res) => {
+router.route('/singleStudent').post(async(req, res) => {
   //const grade = Number(req.body.grade);
   const studentID = req.body.studentID;
   //const studentID = req.body.studentID;
@@ -44,7 +38,7 @@ router.route("/singleStudent").post(async (req, res) => {
   //const courseName = courseInfo[0].name;
   //res.json(courseName);
   //const studentName = studentInfo.name;
-  const info = await GradeAverage.find({ studentID: studentID });
+  const info = await GradeAverage.find({studentID: studentID});
   res.json(info);
   //newGradeAverage.save()
   //newGrade.save()
@@ -52,51 +46,46 @@ router.route("/singleStudent").post(async (req, res) => {
   //  .catch(err => res.status(400).json('Error: ' + err));
 });
 
+
 //adds student to share list
 //requires courseID, and studentID, and studentIDToShareWith
-router.route("/shareGrade").put(async (req, res) => {
-  const courseID = req.body.courseID;
-  const studentID = req.body.studentID;
-  const studentIDToShareWith = req.body.studentIDToShareWith;
-  GradeAverage.updateOne(
-    { courseID: courseID, studentID: studentID },
-    { $push: { sharedWith: studentIDToShareWith } }
-  )
-    .then(res.json("grade shared!"))
-    .catch(err => res.status(400).json("Error: " + err));
-  //const info = await GradeAverage.find({ courseID : courseID, studentID : studentID});
-  //res.json(info);
-  //const studentID = req.body.studentID;
-  //const studentInfo = await Register.find({_id: studentID});
-  //const studentName = studentInfo[0].name;
-  //const courseInfo = await Course.find({_id: courseID});
-  //const courseName = courseInfo[0].name;
-  //res.json(courseName);
-  //const studentName = studentInfo.name;
-  //const info = await GradeAverage.find({courseID: courseID});
-  //res.json("grade shared");
-  //newGradeAverage.save()
-  //newGrade.save()
-  //  .then(() => res.json('Grade added!'))
-  //  .catch(err => res.status(400).json('Error: ' + err));
+router.route('/shareGrade').put(async(req, res) => {
+const courseID = req.body.courseID;
+const studentID = req.body.studentID;
+const studentIDToShareWith = req.body.studentIDToShareWith;
+GradeAverage.updateOne(
+  { courseID : courseID, studentID : studentID},
+  {$push: { sharedWith : studentIDToShareWith}})
+  .then(res.json("grade shared!"))
+.catch(err => res.status(400).json('Error: ' + err));
+//const info = await GradeAverage.find({ courseID : courseID, studentID : studentID});
+//res.json(info);
+//const studentID = req.body.studentID;
+//const studentInfo = await Register.find({_id: studentID});
+//const studentName = studentInfo[0].name;
+//const courseInfo = await Course.find({_id: courseID});
+//const courseName = courseInfo[0].name;
+//res.json(courseName);
+//const studentName = studentInfo.name;
+//const info = await GradeAverage.find({courseID: courseID});
+//res.json("grade shared");
+//newGradeAverage.save()
+//newGrade.save()
+//  .then(() => res.json('Grade added!'))
+//  .catch(err => res.status(400).json('Error: ' + err));
 });
+
 
 //updates grade
 //requires grade, courseID, and studentID
-router.route("/update").post(async (req, res) => {
-  const newgrade = Number(req.body.grade);
-  const courseID = req.body.courseID;
-  const studentID = req.body.studentID;
-  const gradeToUpdate2 = await GradeAverage.find({
-    courseID: courseID,
-    studentID: studentID,
-  });
-  const gradeToUpdate = gradeToUpdate2[0];
-  //res.json(gradeToUpdate);
-  GradeAverage.updateOne(
-    { courseID: courseID, studentID: studentID },
-    { grade: newgrade }
-  )
+router.route('/update').post(async(req, res) => {
+    const newgrade = Number(req.body.grade);
+    const courseID = req.body.courseID;
+    const studentID = req.body.studentID;
+    const gradeToUpdate2 = await GradeAverage.find({courseID: courseID, studentID: studentID});
+    const gradeToUpdate = gradeToUpdate2[0];
+    //res.json(gradeToUpdate);
+    GradeAverage.updateOne( {courseID: courseID, studentID: studentID}, {grade: newgrade})
     //const studentInfo = await Register.find({_id: studentID});
     //const studentName = studentInfo[0].name;
     //const courseInfo = await Course.find({_id: courseID});
@@ -107,41 +96,41 @@ router.route("/update").post(async (req, res) => {
     ///res.json(newGradeAverage);
     //newGradeAverage.save()
     //newGrade.save()
-    .then(() => res.json("Update Made!"))
-    .catch(err => res.status(400).json("Error: " + err));
+      .then(() => res.json('Update Made!'))
+      .catch(err => res.status(400).json('Error: ' + err));
 });
 
 //requires courseID
-router.route("/entireCourse").put(async (req, res) => {
-  //const grade = Number(req.body.grade);
-  const courseID = req.body.courseID;
-  //const studentID = req.body.studentID;
-  //const studentInfo = await Register.find({_id: studentID});
-  //const studentName = studentInfo[0].name;
-  //const courseInfo = await Course.find({_id: courseID});
-  //const courseName = courseInfo[0].name;
-  //res.json(courseName);
-  //const studentName = studentInfo.name;
-  const info = await GradeAverage.find({ courseID: courseID });
-  res.json(info);
-  //newGradeAverage.save()
-  //newGrade.save()
-  //  .then(() => res.json('Grade added!'))
-  //  .catch(err => res.status(400).json('Error: ' + err));
+router.route('/entireCourse').put(async(req, res) => {
+    //const grade = Number(req.body.grade);
+    const courseID = req.body.courseID;
+    //const studentID = req.body.studentID;
+    //const studentInfo = await Register.find({_id: studentID});
+    //const studentName = studentInfo[0].name;
+    //const courseInfo = await Course.find({_id: courseID});
+    //const courseName = courseInfo[0].name;
+    //res.json(courseName);
+    //const studentName = studentInfo.name;
+    const info = await GradeAverage.find({courseID: courseID});
+    res.json(info);
+    //newGradeAverage.save()
+    //newGrade.save()
+    //  .then(() => res.json('Grade added!'))
+    //  .catch(err => res.status(400).json('Error: ' + err));
 });
+
 
 //adds student to share list
 //requires courseID, and studentID, and studentIDToShareWith
-router.route("/shareGrade").put(async (req, res) => {
+router.route('/shareGrade').put(async(req, res) => {
   const courseID = req.body.courseID;
   const studentID = req.body.studentID;
   const studentIDToShareWith = req.body.studentIDToShareWith;
   GradeAverage.updateOne(
-    { courseID: courseID, studentID: studentID },
-    { $push: { sharedWith: studentIDToShareWith } }
-  )
+    { courseID : courseID, studentID : studentID},
+    {$push: { sharedWith : studentIDToShareWith}})
     .then(res.json("grade shared!"))
-    .catch(err => res.status(400).json("Error: " + err));
+  .catch(err => res.status(400).json('Error: ' + err));
   //const info = await GradeAverage.find({ courseID : courseID, studentID : studentID});
   //res.json(info);
   //const studentID = req.body.studentID;
@@ -161,14 +150,13 @@ router.route("/shareGrade").put(async (req, res) => {
 
 //gets all grades that a particular student has had shared with them
 //requires studentID
-router.route("/getSharedGrades").put(async (req, res) => {
+router.route('/getSharedGrades').post(async(req, res) => {
   const studentID = req.body.studentID;
-  GradeAverage.updateOne(
-    { courseID: courseID, studentID: studentID },
-    { $push: { sharedWith: studentIDToShareWith } }
-  )
+  /*GradeAverage.updateOne(
+    { courseID : courseID, studentID : studentID},
+    {$push: { sharedWith : studentIDToShareWith}})
     .then(res.json("grade shared!"))
-    .catch(err => res.status(400).json("Error: " + err));
+  .catch(err => res.status(400).json('Error: ' + err));*/
   //const info = await GradeAverage.find({ courseID : courseID, studentID : studentID});
   //res.json(info);
   //const studentID = req.body.studentID;
@@ -184,5 +172,23 @@ router.route("/getSharedGrades").put(async (req, res) => {
   //newGrade.save()
   //  .then(() => res.json('Grade added!'))
   //  .catch(err => res.status(400).json('Error: ' + err));
-});
+  });
+
+//deletes a grade from the collection
+//requires studentID and courseID
+router.route('/deleteGradeAverage').post(async(req, res) => {
+  const studentID = req.body.studentID;
+  const courseID = req.body.courseID;
+  GradeAverage.findOneAndDelete(
+    {courseID : courseID, studentID : studentID}
+  )
+  .then(res.json("grade deleted!"))
+  .catch(err => res.status(400).json('Error: ' + err));
+  /*GradeAverage.updateOne(
+    { courseID : courseID, studentID : studentID},
+    {$push: { sharedWith : studentIDToShareWith}})
+    .then(res.json("grade shared!"))
+  .catch(err => res.status(400).json('Error: ' + err));*/
+  
+  });
 module.exports = router;
