@@ -22,6 +22,9 @@ const gradeaverageSchema = new Schema({
     courseName:{
         type:String,
         required:true
+    },
+    sharedWith:{
+        type:[String],  
     }
 });
 
