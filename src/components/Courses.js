@@ -74,6 +74,20 @@ export default class Courses extends Component {
       courses: this.state.courses.filter(el => el._id !== msg.courseID),
     });
 
+    var msg_2 = {
+      courseID: id,
+      studentID: studentID_,
+    };
+
+    axios
+      .post(
+        "http://localhost:8080/components/gradeaverage/deleteGradeAverage",
+        msg_2
+      )
+      .then(response => {
+        console.log(response.data);
+      });
+
     window.location = "/components/courses";
   }
 

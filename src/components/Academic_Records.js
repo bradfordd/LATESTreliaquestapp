@@ -34,7 +34,7 @@ export default class Academic_Records extends Component {
       .post("http://localhost:8080/components/gradeaverage/singleStudent", body)
       .then(response => {
         this.setState({ courses: response.data });
-        console.log(this.state.courses);
+        //console.log(this.state.courses);
       })
       .catch(error => {
         console.log(error);
