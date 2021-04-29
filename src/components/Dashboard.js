@@ -88,19 +88,19 @@ export default class Dashboard extends Component {
     } else if (name_of_course === "History") {
       console.log("History page!");
       localStorage.setItem("courseID", JSON.stringify(id));
-      //window.location = "/components/allcourses/history";
+      window.location = "/components/allcourses/history";
     } else if (name_of_course === "English II: Honors") {
       console.log("English II Honors page!");
       localStorage.setItem("courseID", JSON.stringify(id));
-      //window.location = "/components/allcourses/englishhonors2";
+      window.location = "/components/allcourses/englishhonors2";
     } else if (name_of_course === "Science: Honors") {
       console.log("Science Honors page!");
       localStorage.setItem("courseID", JSON.stringify(id));
-      //window.location = "/components/allcourses/sciencehonors";
+      window.location = "/components/allcourses/sciencehonors";
     } else if (name_of_course === "Geometry") {
       console.log("Geometry page!");
       localStorage.setItem("courseID", JSON.stringify(id));
-      //window.location = "/components/allcourses/";
+      window.location = "/components/allcourses/";
     }
   }
 

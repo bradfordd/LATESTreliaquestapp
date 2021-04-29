@@ -4,7 +4,7 @@ import axios from "axios";
 
 const Course = props => (
   <tr>
-    <td>{props.course.studentName}</td>
+    <td>{props.course.courseName}</td>
     <td>{props.course.grade}</td>
   </tr>
 );
@@ -18,17 +18,32 @@ export default class Academic_Records extends Component {
     this.state = { courses: [] };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    var studentID = localStorage.getItem("studentID");
+    var tempStudentID = "";
+    var anotherTempStudentID = "";
+
+    tempStudentID = studentID.replace('"', "");
+    anotherTempStudentID = tempStudentID.replace('"', "");
+    studentID = anotherTempStudentID;
+    var body = {
+      studentID: studentID,
+    };
+
+    axios
+      .post("http://localhost:8080/components/gradeaverage/singleStudent", body)
+      .then(response => {
+        this.setState({ courses: response.data });
+        console.log(this.state.courses);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   courseList() {
     return this.state.courses.map(currentcourse => {
-      return (
-        <Course
-          course={currentcourse}
-          updateGrade={this.updateGrade}
-          key={currentcourse._id}
-        />
-      );
+      return <Course course={currentcourse} key={currentcourse._id} />;
     });
   }
 
