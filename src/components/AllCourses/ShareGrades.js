@@ -11,6 +11,13 @@ const Table = props => (
   </tr>
 );
 
+const Student = props => (
+  <tr>
+    <td>{props.course.name}</td>
+    <td>{props.course._id}</td>
+  </tr>
+);
+
 export default class CourseForm extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +31,7 @@ export default class CourseForm extends Component {
       target_id: "",
       courses: [],
       table: [],
+      target_grade: [],
       errors: {},
     };
   }
@@ -33,8 +41,22 @@ export default class CourseForm extends Component {
   };
 
   componentDidMount() {
+    var studentID = localStorage.getItem("studentID");
+    var tempStudentID = "";
+    var anotherTempStudentID = "";
+
+    tempStudentID = studentID.replace('"', "");
+    anotherTempStudentID = tempStudentID.replace('"', "");
+    studentID = anotherTempStudentID;
+
+    var body1 = {
+      studentID: studentID,
+    };
     axios
-      .get("http://localhost:8080/components/register/students")
+      .post(
+        "http://localhost:8080/components/register/studentsExceptLoggedIn",
+        body1
+      )
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
@@ -48,15 +70,25 @@ export default class CourseForm extends Component {
         console.log(error);
       });
 
+    var body2 = {
+      studentID: studentID,
+    };
+    axios
+      .post(
+        "http://localhost:8080/components/register/studentsExceptLoggedIn",
+        body2
+      )
+      .then(response => {
+        this.setState({ target_grade: response.data });
+        //console.log(response.data);
+        //console.log(this.state.table);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
     ///////////////////////////////////
 
-    var studentID = localStorage.getItem("studentID");
-    var tempStudentID = "";
-    var anotherTempStudentID = "";
-
-    tempStudentID = studentID.replace('"', "");
-    anotherTempStudentID = tempStudentID.replace('"', "");
-    studentID = anotherTempStudentID;
     var body = {
       studentID: studentID,
     };
@@ -82,8 +114,8 @@ export default class CourseForm extends Component {
   }
 
   studentList() {
-    return this.state.table.map(currentcourse => {
-      return <Table course={currentcourse} key={currentcourse._id} />;
+    return this.state.target_grade.map(currenttarget => {
+      return <Student course={currenttarget} key={currenttarget._id} />;
     });
   }
 
