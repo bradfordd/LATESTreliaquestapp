@@ -4,8 +4,8 @@ import { Link, NavLink } from "react-router-dom";
 const NavBar = ({ user, permission, admin_status, user_name }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <Link className="navbar-brand" to="/">
-        RQ App - Welcome {user_name}
+      <Link className="navbar-brand" to="/components/courses">
+        RQ App
       </Link>
       <button
         className="navbar-toggler"
@@ -31,6 +31,14 @@ const NavBar = ({ user, permission, admin_status, user_name }) => {
               </NavLink>
               <NavLink className="nav-item nav-link" to="/components/about">
                 About
+              </NavLink>
+            </React.Fragment>
+          )}
+
+          {user && (
+            <React.Fragment>
+              <NavLink className="nav-item nav-link" to="/components/courses">
+                {user_name}
               </NavLink>
             </React.Fragment>
           )}

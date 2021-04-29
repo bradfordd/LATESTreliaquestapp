@@ -53,16 +53,7 @@ class App extends Component {
     this.setState({ admin_status });
     console.log(admin_status);
 
-    var user_name = auth.getUserName();
-
-    //var user_name = localStorage.getItem("name");
-    var tempStudentID = "";
-    var anotherTempStudentID = "";
-
-    tempStudentID = user_name.replace('"', "");
-    anotherTempStudentID = tempStudentID.replace('"', "");
-    user_name = anotherTempStudentID;
-
+    const user_name = auth.getUserName();
     this.setState({ user_name });
     console.log(user_name);
 

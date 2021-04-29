@@ -80,7 +80,7 @@ export default class CourseForm extends Component {
       )
       .then(response => {
         this.setState({ target_grade: response.data });
-        //console.log(response.data);
+        console.log(response.data);
         //console.log(this.state.table);
       })
       .catch(error => {
