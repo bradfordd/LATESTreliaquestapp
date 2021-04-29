@@ -118,6 +118,28 @@ router.route('/deletecourse').put((req, res) => {
   .catch(err => res.status(400).json('Error: ' + err))
 });
 
+
+//Cascading delete to remove a student/teacher from a course
+//requires studentID 
+router.route('/cascadingDelete').put((req, res) => {
+  const studentID = req.body.studentID;
+  Grade.deleteMany(
+    {
+    studentID : studentID}
+  );
+  GradeAverage.deleteMany(
+    { studentID : studentID}
+    );
+  Course.updateMany(
+    { teacherID: studentID },
+    { teacherID: "", teacherAssigned: "" } )
+  Course.updateMany(
+    { $pull: { students: studentID } });
+  Register.findByIdAndDelete(studentID)
+  .then(register => res.json("student removed!"))
+  .catch(err => res.status(400).json('Error: ' + err));
+});
+
 //returns all STUDENTS in the system
 router.route('/students').get(async(req, res) => {
   const info = await Register.find({teacher: false});
