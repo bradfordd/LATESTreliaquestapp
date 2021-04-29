@@ -1,4 +1,5 @@
 /*We are currently at 19:39 in the video*/
+var mongoose = require('mongoose');
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const router = express.Router();
@@ -129,15 +130,17 @@ router.route('/teachers').get(async(req, res) => {
   res.json(info);
 });
 
-//returns all STUDENTS in the system
+//returns all STUDENTS in the system except logged in
 router.route('/studentsExceptLoggedIn').post(async(req, res) => {
   const studentID = req.body.studentID;
+  const studentLoggedIn = await Register.find({_id : studentID});
   var info = await Register.find({teacher: false});
   for (var i = 0; i < info.length; i++) {
-    if (info[i]._id == studentID) {
-      info.pop(i);
+    if (info[i].name === studentLoggedIn[0].name) {
+      info.splice(i, 1);
     }
   }
+
   res.json(info);
 });
 
