@@ -53,6 +53,19 @@ class App extends Component {
     this.setState({ admin_status });
     console.log(admin_status);
 
+    var user_name = auth.getUserName();
+
+    //var user_name = localStorage.getItem("name");
+    var tempStudentID = "";
+    var anotherTempStudentID = "";
+
+    tempStudentID = user_name.replace('"', "");
+    anotherTempStudentID = tempStudentID.replace('"', "");
+    user_name = anotherTempStudentID;
+
+    this.setState({ user_name });
+    console.log(user_name);
+
     /*try {
       const jwt = localStorage.getItem("token");
       const user = jwtDecode(jwt);
@@ -66,6 +79,7 @@ class App extends Component {
     const { user } = this.state;
     const { permission } = this.state;
     const { admin_status } = this.state;
+    const { user_name } = this.state;
     return (
       <React.Fragment>
         <ToastContainer />
@@ -73,6 +87,7 @@ class App extends Component {
           user={user}
           permission={permission}
           admin_status={admin_status}
+          user_name={user_name}
         />
         <main className="container">
           <Switch>

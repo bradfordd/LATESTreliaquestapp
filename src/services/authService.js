@@ -14,6 +14,7 @@ export function logout() {
   localStorage.removeItem("admin");
   localStorage.removeItem("studentID");
   localStorage.removeItem("courseID");
+  localStorage.removeItem("name");
 }
 
 export function getCurrentUser() {
@@ -43,12 +44,22 @@ export function getAdminStatus() {
   }
 }
 
+export function getUserName() {
+  try {
+    const jwt_p = localStorage.getItem("name");
+    return jwt_p;
+  } catch (ex) {
+    return null;
+  }
+}
+
 export default {
   login,
   logout,
   getCurrentUser,
   getCurrentUserPermission,
   getAdminStatus,
+  getUserName,
 };
 
 // Fix login

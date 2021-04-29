@@ -43,6 +43,7 @@ class LoginForm extends Form {
       .post("http://localhost:8080/components/auth", user)
       .then(function (response) {
         localStorage.setItem("token", JSON.stringify(response.data));
+        localStorage.setItem("name", JSON.stringify(response.data.user.name));
         localStorage.setItem(
           "teacher",
           JSON.stringify(response.data.user.teacher)
