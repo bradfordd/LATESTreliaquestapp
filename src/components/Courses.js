@@ -6,6 +6,7 @@ const Course = props => (
   <tr>
     <td>{props.course.name}</td>
     <td>{props.course.teacherAssigned}</td>
+
     <td>
       <button
         onClick={() => props.deleteCourse(props.course._id)}
@@ -16,14 +17,14 @@ const Course = props => (
     </td>
   </tr>
 );
-
+//<td>{props.getGrades(props.course._id)}</td>
 export default class Courses extends Component {
   constructor(props) {
     super(props);
 
     this.deleteCourse = this.deleteCourse.bind(this);
 
-    this.state = { courses: [], s_id: "", c_id: "" };
+    this.state = { courses: [], group: [], s_id: "", c_id: "" };
   }
 
   componentDidMount() {
@@ -72,6 +73,8 @@ export default class Courses extends Component {
     this.setState({
       courses: this.state.courses.filter(el => el._id !== msg.courseID),
     });
+
+    window.location = "/components/courses";
   }
 
   courseList() {
@@ -80,6 +83,7 @@ export default class Courses extends Component {
         <Course
           course={currentcourse[0]}
           deleteCourse={this.deleteCourse}
+          //getGrades={this.getGrades}
           key={currentcourse[0]._id}
         />
       );

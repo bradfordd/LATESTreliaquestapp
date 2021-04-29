@@ -1,10 +1,56 @@
-import React from 'react';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
-export default function Academic_Records() {
-  return(
-    <div className="wrapper">
-        <h2>Academic Records</h2>
-        <h3>    In this page a student will be able to see all their academic records, such as overall gpa, grades for each course that student take, etc.</h3>
-    </div>
-  );
+const Course = props => (
+  <tr>
+    <td>{props.course.studentName}</td>
+    <td>{props.course.grade}</td>
+  </tr>
+);
+
+export default class Academic_Records extends Component {
+  constructor(props) {
+    super(props);
+
+    //this.updateGrade = this.updateGrade.bind(this);
+
+    this.state = { courses: [] };
+  }
+
+  componentDidMount() {}
+
+  courseList() {
+    return this.state.courses.map(currentcourse => {
+      return (
+        <Course
+          course={currentcourse}
+          updateGrade={this.updateGrade}
+          key={currentcourse._id}
+        />
+      );
+    });
+  }
+
+  render() {
+    if (this.state.courses.length === 0)
+      return <p>Course grades not available.</p>;
+
+    return (
+      <React.Fragment>
+        <div className="wrapper">
+          <h2>Grades for all currently enrolled courses</h2>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">Course</th>
+                <th scope="col">Overall Grade</th>
+              </tr>
+            </thead>
+            <tbody>{this.courseList()}</tbody>
+          </table>
+        </div>
+      </React.Fragment>
+    );
+  }
 }

@@ -136,7 +136,23 @@ export default class CourseForm extends Component {
         console.log(error);
       });
 
-    window.location = "/courses";
+    var body_2 = {
+      grade: 100,
+      courseID: this.state.course_id,
+      studentID: studentID,
+    };
+
+    console.log(body.courseID);
+    console.log(body.grade);
+    console.log(body.studentID);
+
+    axios
+      .post("http://localhost:8080/components/gradeaverage/", body_2)
+      .then(response => {
+        console.log(response.data);
+      });
+
+    window.location = "/components/courses";
   }
 
   render() {
