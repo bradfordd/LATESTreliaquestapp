@@ -129,4 +129,16 @@ router.route('/teachers').get(async(req, res) => {
   res.json(info);
 });
 
+//returns all STUDENTS in the system
+router.route('/studentsExceptLoggedIn').post(async(req, res) => {
+  const studentID = req.body.studentID;
+  var info = await Register.find({teacher: false});
+  for (var i = 0; i < info.length; i++) {
+    if (info[i]._id == studentID) {
+      info.pop(i);
+    }
+  }
+  res.json(info);
+});
+
 module.exports = router;
