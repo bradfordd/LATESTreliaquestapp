@@ -116,4 +116,11 @@ router.route('/deletecourse').put((req, res) => {
   .then(register => res.json("student removed!"))
   .catch(err => res.status(400).json('Error: ' + err))
 });
+
+//returns all STUDENTS in the system
+router.route('/students').get(async(req, res) => {
+  const info = await Register.find({teacher: false});
+  res.json(info);
+});
+
 module.exports = router;
