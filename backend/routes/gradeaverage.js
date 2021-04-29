@@ -28,7 +28,7 @@ router.route('/').post(async(req, res) => {
 
 //returns grade average information for a particular student
 //requires studentID
-router.route('/singleStudent').put(async(req, res) => {
+router.route('/singleStudent').post(async(req, res) => {
   //const grade = Number(req.body.grade);
   const studentID = req.body.studentID;
   //const studentID = req.body.studentID;
@@ -150,13 +150,13 @@ router.route('/shareGrade').put(async(req, res) => {
 
 //gets all grades that a particular student has had shared with them
 //requires studentID
-router.route('/getSharedGrades').put(async(req, res) => {
+router.route('/getSharedGrades').post(async(req, res) => {
   const studentID = req.body.studentID;
-  GradeAverage.updateOne(
+  /*GradeAverage.updateOne(
     { courseID : courseID, studentID : studentID},
     {$push: { sharedWith : studentIDToShareWith}})
     .then(res.json("grade shared!"))
-  .catch(err => res.status(400).json('Error: ' + err));
+  .catch(err => res.status(400).json('Error: ' + err));*/
   //const info = await GradeAverage.find({ courseID : courseID, studentID : studentID});
   //res.json(info);
   //const studentID = req.body.studentID;
@@ -172,5 +172,23 @@ router.route('/getSharedGrades').put(async(req, res) => {
   //newGrade.save()
   //  .then(() => res.json('Grade added!'))
   //  .catch(err => res.status(400).json('Error: ' + err));
+  });
+
+//deletes a grade from the collection
+//requires studentID and courseID
+router.route('/deleteGradeAverage').post(async(req, res) => {
+  const studentID = req.body.studentID;
+  const courseID = req.body.courseID;
+  GradeAverage.findOneAndDelete(
+    {courseID : courseID, studentID : studentID}
+  )
+  .then(res.json("grade deleted!"))
+  .catch(err => res.status(400).json('Error: ' + err));
+  /*GradeAverage.updateOne(
+    { courseID : courseID, studentID : studentID},
+    {$push: { sharedWith : studentIDToShareWith}})
+    .then(res.json("grade shared!"))
+  .catch(err => res.status(400).json('Error: ' + err));*/
+  
   });
 module.exports = router;
