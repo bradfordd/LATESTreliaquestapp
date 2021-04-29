@@ -23,6 +23,11 @@ import Science from "./components/AllCourses/Science";
 import ScienceHonors from "./components/AllCourses/ScienceHonors";
 import UpdateGradeForm from "./components/AllCourses/UpdateGradeForm";
 
+import AllCoursesAdmin from "./components/AdminFolder/AllCoursesAdmin";
+import CreateCourseForm from "./components/AdminFolder/CreateCourseForm";
+import UpdateCourseForm from "./components/AdminFolder/UpdateCourseForm";
+import EnglishAdmin from "./components/AdminFolder/EnglishAdmin";
+
 import { BrowserRouter, Route, Switch, Link, Redirect } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import jwtDecode from "jwt-decode";
@@ -43,6 +48,10 @@ class App extends Component {
     this.setState({ permission });
     //console.log(permission);
 
+    const admin_status = auth.getAdminStatus();
+    this.setState({ admin_status });
+    console.log(admin_status);
+
     /*try {
       const jwt = localStorage.getItem("token");
       const user = jwtDecode(jwt);
@@ -55,10 +64,15 @@ class App extends Component {
   render() {
     const { user } = this.state;
     const { permission } = this.state;
+    const { admin_status } = this.state;
     return (
       <React.Fragment>
         <ToastContainer />
-        <NavBar user={user} permission={permission} />
+        <NavBar
+          user={user}
+          permission={permission}
+          admin_status={admin_status}
+        />
         <main className="container">
           <Switch>
             <Route path="/" exact component={LoginForm} />
@@ -131,16 +145,6 @@ class App extends Component {
             />
 
             <Route
-              path="/components/allcourses/math"
-              render={props => {
-                if (permission === "true" && user) return <Math {...props} />;
-                else if (permission === "false") {
-                  return <Redirect to="/not-found" />;
-                }
-              }}
-            />
-
-            <Route
               path="/components/allcourses/science"
               render={props => {
                 if (permission === "true" && user)
@@ -172,6 +176,57 @@ class App extends Component {
                 }
               }}
             />
+            <Route
+              path="/components/allcourses/math"
+              render={props => {
+                if (permission === "true" && user) return <Math {...props} />;
+                else if (permission === "false") {
+                  return <Redirect to="/not-found" />;
+                }
+              }}
+            />
+            <Route
+              path="/components/adminfolder/createcourseform"
+              render={props => {
+                if (permission === "false" && user && admin_status === "true")
+                  return <CreateCourseForm {...props} />;
+                else if (admin_status === "false") {
+                  return <Redirect to="/not-found" />;
+                }
+              }}
+              admin_status
+            />
+            <Route
+              path="/components/adminfolder/updatecourseform"
+              render={props => {
+                if (permission === "false" && user && admin_status === "true")
+                  return <UpdateCourseForm {...props} />;
+                else if (admin_status === "false") {
+                  return <Redirect to="/not-found" />;
+                }
+              }}
+            />
+            <Route
+              path="/components/adminfolder/englishadmin"
+              render={props => {
+                if (permission === "false" && user && admin_status === "true")
+                  return <EnglishAdmin {...props} />;
+                else if (admin_status === "false") {
+                  return <Redirect to="/not-found" />;
+                }
+              }}
+            />
+            <Route
+              path="/components/adminfolder/allcoursesadmin"
+              render={props => {
+                if (permission === "false" && user && admin_status === "true")
+                  return <AllCoursesAdmin {...props} />;
+                else if (admin_status === "false") {
+                  return <Redirect to="/not-found" />;
+                }
+              }}
+            />
+
             <ProtectedRoute
               path="/components/personalinfo"
               exact
@@ -244,3 +299,6 @@ function getToken() {
     </ul>
   </div>
 );*/
+
+/*
+ */

@@ -34,11 +34,21 @@ export function getCurrentUserPermission() {
   }
 }
 
+export function getAdminStatus() {
+  try {
+    const jwt_p = localStorage.getItem("admin");
+    return jwt_p;
+  } catch (ex) {
+    return null;
+  }
+}
+
 export default {
   login,
   logout,
   getCurrentUser,
   getCurrentUserPermission,
+  getAdminStatus,
 };
 
 // Fix login

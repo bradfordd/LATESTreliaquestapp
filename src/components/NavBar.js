@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 
-const NavBar = ({ user, permission }) => {
+const NavBar = ({ user, permission, admin_status }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
@@ -35,7 +35,7 @@ const NavBar = ({ user, permission }) => {
             </React.Fragment>
           )}
 
-          {user && permission === "false" && (
+          {user && permission === "false" && admin_status === "false" && (
             <React.Fragment>
               <NavLink className="nav-item nav-link" to="/components/courses">
                 Courses
@@ -43,7 +43,7 @@ const NavBar = ({ user, permission }) => {
             </React.Fragment>
           )}
 
-          {user && permission === "true" && (
+          {user && permission === "true" && admin_status === "false" && (
             <React.Fragment>
               <NavLink className="nav-item nav-link" to="/components/dashboard">
                 Dashboard
@@ -51,13 +51,44 @@ const NavBar = ({ user, permission }) => {
             </React.Fragment>
           )}
 
-          {user && permission === "false" && (
+          {user && permission === "false" && admin_status === "false" && (
             <React.Fragment>
               <NavLink
                 className="nav-item nav-link"
                 to="/components/academicrecords"
               >
                 Academic Records
+              </NavLink>
+            </React.Fragment>
+          )}
+
+          {user && permission === "false" && admin_status === "true" && (
+            <React.Fragment>
+              <NavLink
+                className="nav-item nav-link"
+                to="/components/adminfolder/allcoursesadmin"
+              >
+                All Courses
+              </NavLink>
+            </React.Fragment>
+          )}
+          {user && permission === "false" && admin_status === "true" && (
+            <React.Fragment>
+              <NavLink
+                className="nav-item nav-link"
+                to="/components/adminfolder/createcourseform"
+              >
+                Create Course Form
+              </NavLink>
+            </React.Fragment>
+          )}
+          {user && permission === "false" && admin_status === "true" && (
+            <React.Fragment>
+              <NavLink
+                className="nav-item nav-link"
+                to="/components/adminfolder/updatecourseform"
+              >
+                Update Course Form
               </NavLink>
             </React.Fragment>
           )}
