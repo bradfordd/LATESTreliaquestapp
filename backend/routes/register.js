@@ -123,4 +123,10 @@ router.route('/students').get(async(req, res) => {
   res.json(info);
 });
 
+//returns all TEACHERS in the system
+router.route('/teachers').get(async(req, res) => {
+  const info = await Register.find({teacher: true});
+  res.json(info);
+});
+
 module.exports = router;
