@@ -130,7 +130,7 @@ router.route('/teachers').get(async(req, res) => {
   res.json(info);
 });
 
-//returns all STUDENTS in the system
+//returns all STUDENTS in the system except logged in
 router.route('/studentsExceptLoggedIn').post(async(req, res) => {
   const studentID = req.body.studentID;
   const studentLoggedIn = await Register.find({_id : studentID});
