@@ -50,11 +50,10 @@ router.route('/singleStudent').post(async(req, res) => {
 //adds student to share list
 //requires courseID, and studentID, and studentIDToShareWith
 router.route('/shareGrade').put(async(req, res) => {
-const courseID = req.body.courseID;
 const studentID = req.body.studentID;
 const studentIDToShareWith = req.body.studentIDToShareWith;
-GradeAverage.updateOne(
-  { courseID : courseID, studentID : studentID},
+GradeAverage.updateMany(
+  { studentID : studentID},
   {$push: { sharedWith : studentIDToShareWith}})
   .then(res.json("grade shared!"))
 .catch(err => res.status(400).json('Error: ' + err));
@@ -96,6 +95,7 @@ router.route('/update').post(async(req, res) => {
     ///res.json(newGradeAverage);
     //newGradeAverage.save()
     //newGrade.save()
+    res.json("Grade Updated!")
       .then(() => res.json('Update Made!'))
       .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -152,8 +152,15 @@ router.route('/shareGrade').put(async(req, res) => {
 //requires studentID
 router.route('/getSharedGrades').post(async(req, res) => {
   const studentID = req.body.studentID;
-  const studentInfo = await GradeAverage.find({studentID: studentID});
-  res.json(studentInfo);
+  const studentInfo = await GradeAverage.find();
+  var sharedData = [];
+  for (var i = 0; i < studentInfo.length; i++) {
+    var sharedWith = studentInfo[i].sharedWith;
+    if (sharedWith.includes(studentID))
+      sharedData.push(studentInfo[i]);
+  }
+  res.json(sharedData);
+  //const sharedArray = await studentInfo[0].sharedWith;
   /*GradeAverage.updateOne(
     { courseID : courseID, studentID : studentID},
     {$push: { sharedWith : studentIDToShareWith}})
