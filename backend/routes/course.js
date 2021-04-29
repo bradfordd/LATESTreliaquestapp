@@ -47,7 +47,7 @@ router.route('/assignTeacher').post(async(req, res) => {
 
 //Gets ALL courses
 router.route('/allcourses').get(async(req,res) => {
-   const courseID = req.body.courseID;
+   //const courseID = req.body.courseID;
    Course.find()
      .then(course => res.json(course))
      .catch(err => res.status(400).json('Error: ' + err));

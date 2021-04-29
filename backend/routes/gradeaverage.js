@@ -152,26 +152,14 @@ router.route('/shareGrade').put(async(req, res) => {
 //requires studentID
 router.route('/getSharedGrades').post(async(req, res) => {
   const studentID = req.body.studentID;
+  const studentInfo = await GradeAverage.find({studentID: studentID});
+  res.json(studentInfo);
   /*GradeAverage.updateOne(
     { courseID : courseID, studentID : studentID},
     {$push: { sharedWith : studentIDToShareWith}})
     .then(res.json("grade shared!"))
   .catch(err => res.status(400).json('Error: ' + err));*/
-  //const info = await GradeAverage.find({ courseID : courseID, studentID : studentID});
-  //res.json(info);
-  //const studentID = req.body.studentID;
-  //const studentInfo = await Register.find({_id: studentID});
-  //const studentName = studentInfo[0].name;
-  //const courseInfo = await Course.find({_id: courseID});
-  //const courseName = courseInfo[0].name;
-  //res.json(courseName);
-  //const studentName = studentInfo.name;
-  //const info = await GradeAverage.find({courseID: courseID});
-  //res.json("grade shared");
-  //newGradeAverage.save()
-  //newGrade.save()
-  //  .then(() => res.json('Grade added!'))
-  //  .catch(err => res.status(400).json('Error: ' + err));
+  
   });
 
 //deletes a grade from the collection
@@ -191,4 +179,11 @@ router.route('/deleteGradeAverage').post(async(req, res) => {
   .catch(err => res.status(400).json('Error: ' + err));*/
   
   });
+
+
+//gets all gradeAverages
+router.route('/').get(async(req, res) => {
+  const info = await GradeAverage.find();
+  res.json(info);
+})
 module.exports = router;

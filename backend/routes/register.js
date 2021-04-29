@@ -87,7 +87,7 @@ router.route('/courses').post((req, res) => {
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
-//Cascading delete to remove a student from a course
+//Cascading delete to remove a student/teacher from a course
 //requires studentID and courseID
 router.route('/deletecourse').put((req, res) => {
   const courseID = req.body.courseID;
@@ -109,7 +109,7 @@ router.route('/deletecourse').put((req, res) => {
     );
     Course.updateOne(
       { _id: courseID, teacherID: studentID },
-      { teacherID: "" } )
+      { teacherID: "", teacherAssigned: "" } )
     Course.updateOne(
     { _id: courseID },
     { $pull: { students: studentID } })
