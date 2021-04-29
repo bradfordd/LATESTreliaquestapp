@@ -42,6 +42,16 @@ const NavBar = ({ user, permission, admin_status }) => {
               </NavLink>
             </React.Fragment>
           )}
+          {user && permission === "false" && admin_status === "false" && (
+            <React.Fragment>
+              <NavLink
+                className="nav-item nav-link"
+                to="/components/allcourses/sharegrades"
+              >
+                Shared Information
+              </NavLink>
+            </React.Fragment>
+          )}
 
           {user && permission === "true" && admin_status === "false" && (
             <React.Fragment>

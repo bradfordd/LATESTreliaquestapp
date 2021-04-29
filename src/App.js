@@ -22,6 +22,7 @@ import Math from "./components/AllCourses/Math";
 import Science from "./components/AllCourses/Science";
 import ScienceHonors from "./components/AllCourses/ScienceHonors";
 import UpdateGradeForm from "./components/AllCourses/UpdateGradeForm";
+import ShareGrades from "./components/AllCourses/ShareGrades";
 
 import AllCoursesAdmin from "./components/AdminFolder/AllCoursesAdmin";
 import CreateCourseForm from "./components/AdminFolder/CreateCourseForm";
@@ -85,6 +86,16 @@ class App extends Component {
               render={props => {
                 if (permission === "false" && user)
                   return <Academic_Records {...props} />;
+                else if (permission === "true") {
+                  return <Redirect to="/not-found" />;
+                }
+              }}
+            />
+            <Route
+              path="/components/allcourses/sharegrades"
+              render={props => {
+                if (permission === "false" && user)
+                  return <ShareGrades {...props} />;
                 else if (permission === "true") {
                   return <Redirect to="/not-found" />;
                 }
@@ -206,21 +217,22 @@ class App extends Component {
                 }
               }}
             />
+
             <Route
-              path="/components/adminfolder/englishadmin"
+              path="/components/adminfolder/allcoursesadmin"
               render={props => {
                 if (permission === "false" && user && admin_status === "true")
-                  return <EnglishAdmin {...props} />;
+                  return <AllCoursesAdmin {...props} />;
                 else if (admin_status === "false") {
                   return <Redirect to="/not-found" />;
                 }
               }}
             />
             <Route
-              path="/components/adminfolder/allcoursesadmin"
+              path="/components/adminfolder/englishadmin"
               render={props => {
                 if (permission === "false" && user && admin_status === "true")
-                  return <AllCoursesAdmin {...props} />;
+                  return <EnglishAdmin {...props} />;
                 else if (admin_status === "false") {
                   return <Redirect to="/not-found" />;
                 }

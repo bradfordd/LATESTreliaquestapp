@@ -33,13 +33,12 @@ export default class Dashboard extends Component {
 
     this.state = { courses: [] };
   }
-  teacherID;
   componentDidMount() {
     axios
-      .get("http://localhost:8080/components/course/teachercourses")
+      .get("http://localhost:8080/components/course/allcourses")
       .then(response => {
         this.setState({ courses: response.data });
-        //console.log(this.state.courses);
+        console.log(this.state.courses);
       });
   }
 
@@ -47,9 +46,9 @@ export default class Dashboard extends Component {
     return this.state.courses.map(currentcourse => {
       return (
         <Course
-          course={currentcourse[0]}
+          course={currentcourse}
           navigateToCourse={this.navigateToCourse}
-          key={currentcourse[0]._id}
+          key={currentcourse._id}
         />
       );
     });
