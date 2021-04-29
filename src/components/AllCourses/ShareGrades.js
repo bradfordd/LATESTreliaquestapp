@@ -29,7 +29,7 @@ export default class CourseForm extends Component {
   }
 
   schema = {
-    target_id: Joi.string().required().label("Course name"),
+    target_id: Joi.string().required().label("Target Name"),
   };
 
   componentDidMount() {
@@ -38,8 +38,8 @@ export default class CourseForm extends Component {
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
-            courses: response.data.map(course => course.name),
-            target_id: response.data[0].name,
+            courses: response.data.map(course => course._id),
+            target_id: response.data[0]._id,
           });
         }
         //console.log(response.data[0].name);
@@ -81,6 +81,12 @@ export default class CourseForm extends Component {
     });
   }
 
+  studentList() {
+    return this.state.table.map(currentcourse => {
+      return <Table course={currentcourse} key={currentcourse._id} />;
+    });
+  }
+
   onChangeCourse(e) {
     console.log(this.state);
     this.setState({
@@ -98,16 +104,15 @@ export default class CourseForm extends Component {
     tempStudentID = studentID.replace('"', "");
     anotherTempStudentID = tempStudentID.replace('"', "");
     studentID = anotherTempStudentID;
-    console.log(this.state);
+    //console.log(this.state);
 
     var body = {
       studentID: studentID,
-      courseID: this.state.target_id,
       studentIDToShareWith: this.state.target_id,
     };
     console.log("Testing");
     axios
-      .post("http://localhost:8080/components/register/courses", body)
+      .put("http://localhost:8080/components/gradeaverage/shareGrade", body)
       .then(response => {
         console.log(response.data);
       })
@@ -115,7 +120,7 @@ export default class CourseForm extends Component {
         console.log(error);
       });
 
-    window.location = "/components/courses";
+    window.location = "/components/allcourses/sharegrades";
   }
 
   render() {
@@ -161,6 +166,18 @@ export default class CourseForm extends Component {
               </tr>
             </thead>
             <tbody>{this.tableList()}</tbody>
+          </table>
+        </div>
+        <div className="wrapper">
+          <h2>References</h2>
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">Student Name</th>
+                <th scope="col">Student ID</th>
+              </tr>
+            </thead>
+            <tbody>{this.studentList()}</tbody>
           </table>
         </div>
       </div>
