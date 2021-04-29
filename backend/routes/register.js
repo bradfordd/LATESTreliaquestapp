@@ -126,10 +126,12 @@ router.route('/cascadingDelete').put((req, res) => {
   Grade.deleteMany(
     {
     studentID : studentID}
-  );
+  )
+  .catch(err => res.status(400).json('Error: ' + err));
   GradeAverage.deleteMany(
     { studentID : studentID}
-    );
+    )
+    .catch(err => res.status(400).json('Error: ' + err));
   Course.updateMany(
     { teacherID: studentID },
     { teacherID: "", teacherAssigned: "" } )
