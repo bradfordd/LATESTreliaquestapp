@@ -19,7 +19,7 @@ const Course = props => (
   </tr>
 );
 
-export default class ScienceHonors extends Component {
+export default class Geometry extends Component {
   constructor(props) {
     super(props);
 
@@ -78,7 +78,7 @@ export default class ScienceHonors extends Component {
     return (
       <React.Fragment>
         <div className="wrapper">
-          <h2>Students Enrolled in Honors Science</h2>
+          <h2>Students Enrolled in Geometry</h2>
           <table className="table">
             <thead>
               <tr>

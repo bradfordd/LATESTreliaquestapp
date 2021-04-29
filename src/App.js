@@ -15,6 +15,12 @@ import ProtectedRoutePermission from "./components/protectedRoutePermission";
 import CourseForm from "./components/CourseForm";
 
 import English from "./components/AllCourses/English";
+import EnglishHonors2 from "./components/AllCourses/EnglishHonors2";
+import Geometry from "./components/AllCourses/Geometry";
+import History from "./components/AllCourses/History";
+import Math from "./components/AllCourses/Math";
+import Science from "./components/AllCourses/Science";
+import ScienceHonors from "./components/AllCourses/ScienceHonors";
 import UpdateGradeForm from "./components/AllCourses/UpdateGradeForm";
 
 import { BrowserRouter, Route, Switch, Link, Redirect } from "react-router-dom";
@@ -80,6 +86,7 @@ class App extends Component {
                 }
               }}
             />
+
             <Route
               path="/components/dashboard"
               render={props => {
@@ -95,6 +102,71 @@ class App extends Component {
               render={props => {
                 if (permission === "true" && user)
                   return <English {...props} />;
+                else if (permission === "false") {
+                  return <Redirect to="/not-found" />;
+                }
+              }}
+            />
+
+            <Route
+              path="/components/allcourses/englishhonors2"
+              render={props => {
+                if (permission === "true" && user)
+                  return <EnglishHonors2 {...props} />;
+                else if (permission === "false") {
+                  return <Redirect to="/not-found" />;
+                }
+              }}
+            />
+
+            <Route
+              path="/components/allcourses/History"
+              render={props => {
+                if (permission === "true" && user)
+                  return <History {...props} />;
+                else if (permission === "false") {
+                  return <Redirect to="/not-found" />;
+                }
+              }}
+            />
+
+            <Route
+              path="/components/allcourses/math"
+              render={props => {
+                if (permission === "true" && user) return <Math {...props} />;
+                else if (permission === "false") {
+                  return <Redirect to="/not-found" />;
+                }
+              }}
+            />
+
+            <Route
+              path="/components/allcourses/science"
+              render={props => {
+                if (permission === "true" && user)
+                  return <Science {...props} />;
+                else if (permission === "false") {
+                  return <Redirect to="/not-found" />;
+                }
+              }}
+            />
+
+            <Route
+              path="/components/allcourses/sciencehonors"
+              render={props => {
+                if (permission === "true" && user)
+                  return <ScienceHonors {...props} />;
+                else if (permission === "false") {
+                  return <Redirect to="/not-found" />;
+                }
+              }}
+            />
+
+            <Route
+              path="/components/allcourses/geometry"
+              render={props => {
+                if (permission === "true" && user)
+                  return <Geometry {...props} />;
                 else if (permission === "false") {
                   return <Redirect to="/not-found" />;
                 }

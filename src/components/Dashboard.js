@@ -77,31 +77,31 @@ export default class Dashboard extends Component {
       console.log("English page!");
       localStorage.setItem("courseID", JSON.stringify(id));
       window.location = "/components/allcourses/english";
-    } /*
-    if (name_of_course === "English") {
-      console.log("English page!");
-      window.location = "/components/about";
+    } else if (name_of_course === "Math") {
+      console.log("Math page!");
+      localStorage.setItem("courseID", JSON.stringify(id));
+      window.location = "/components/allcourses/math";
+    } else if (name_of_course === "Science") {
+      console.log("Science page!");
+      localStorage.setItem("courseID", JSON.stringify(id));
+      window.location = "/components/allcourses/science";
+    } else if (name_of_course === "History") {
+      console.log("History page!");
+      localStorage.setItem("courseID", JSON.stringify(id));
+      //window.location = "/components/allcourses/history";
+    } else if (name_of_course === "English II: Honors") {
+      console.log("English II Honors page!");
+      localStorage.setItem("courseID", JSON.stringify(id));
+      //window.location = "/components/allcourses/englishhonors2";
+    } else if (name_of_course === "Science: Honors") {
+      console.log("Science Honors page!");
+      localStorage.setItem("courseID", JSON.stringify(id));
+      //window.location = "/components/allcourses/sciencehonors";
+    } else if (name_of_course === "Geometry") {
+      console.log("Geometry page!");
+      localStorage.setItem("courseID", JSON.stringify(id));
+      //window.location = "/components/allcourses/";
     }
-    if (name_of_course === "English") {
-      console.log("English page!");
-      window.location = "/components/about";
-    }
-    if (name_of_course === "English") {
-      console.log("English page!");
-      window.location = "/components/about";
-    }
-    if (name_of_course === "English") {
-      console.log("English page!");
-      window.location = "/components/about";
-    }
-    if (name_of_course === "English") {
-      console.log("English page!");
-      window.location = "/components/about";
-    }
-    if (name_of_course === "English") {
-      console.log("English page!");
-      window.location = "/components/about";
-    }*/
   }
 
   render() {

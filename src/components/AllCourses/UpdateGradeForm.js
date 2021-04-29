@@ -8,41 +8,113 @@ export default class UpdateGradeForm extends Form {
   constructor(props) {
     super(props);
 
-    this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onChangeGrade = this.onChangeGrade.bind(this);
+    //this.doSubmit = this.doSubmit.bind(this);
 
     this.state = {
-      data: { new_grade: "" },
+      data: { grade: "" },
       errors: {},
     };
   }
   schema = {
-    new_grade: Joi.number()
+    grade: Joi.number()
       .required()
       .min(0)
       .max(100)
       .label("New Grade to be Assigned"),
   };
 
-  onChangeUsername(e) {
+  onChangeGrade(e) {
     this.setState({
-      new_grade: e.target.value,
+      grade: e.target.value,
     });
   }
 
+  /*componentDidMount() {
+
+  }*/
+
   doSubmit = async () => {
-    //window.location = "/components/allcourses/dashboard";
+    var courseID = localStorage.getItem("courseID");
+    //var grade = localStorage.getItem("grade");
+    var studentID = localStorage.getItem("targetID");
+    var tempStudentID = "";
+    var anotherTempStudentID = "";
+
+    tempStudentID = courseID.replace('"', "");
+    anotherTempStudentID = tempStudentID.replace('"', "");
+    courseID = anotherTempStudentID;
+
+    /*tempStudentID = grade.replace('"', "");
+    anotherTempStudentID = tempStudentID.replace('"', "");
+    grade = anotherTempStudentID;*/
+
+    tempStudentID = studentID.replace('"', "");
+    anotherTempStudentID = tempStudentID.replace('"', "");
+    studentID = anotherTempStudentID;
+
+    var body = {
+      grade: this.state.data.grade,
+      courseID: courseID,
+      studentID: studentID,
+    };
+
+    console.log(body.courseID);
+    console.log(body.grade);
+    console.log(body.studentID);
+
+    axios
+      .post("http://localhost:8080/components/gradeaverage/update", body)
+      .then(response => {
+        console.log(response.data);
+      });
+
+    window.location = "/components/dashboard";
   };
 
   render() {
     return (
       <div>
-        <h1>Update Grade Form</h1>
+        <h1>Login </h1>
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("new_grade", "New Grade to be Assigned")}
+          {this.renderInput("grade", "New Grade to be Assigned")}
 
-          {this.renderButton("Update")}
+          {this.renderButton("Update Grade")}
         </form>
       </div>
     );
   }
 }
+//Update Grade Form
+//{this.renderButton("Update")}
+
+/*<div className="form-group">
+<input
+  type="submit"
+  value="Register for course"
+  className="btn btn-primary"
+/>
+</div>*/
+
+/*<div>
+        <h3>Update Grade Form</h3>
+        <form onSubmit={this.doSubmit}>
+          <div className="form-group">
+            <label>New Grade to be Assigned</label>
+            <input
+              type="text"
+              required
+              className="form-control"
+              value={this.state.grade}
+              onChange={this.onChangeGrade}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="submit"
+              value="Create User"
+              className="btn btn-primary"
+            />
+          </div>
+        </form>
+      </div>*/

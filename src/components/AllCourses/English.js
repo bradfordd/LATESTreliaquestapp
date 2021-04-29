@@ -8,7 +8,9 @@ const Course = props => (
     <td>{props.course.grade}</td>
     <td>
       <button
-        onClick={() => props.updateGrade(props.course._id)}
+        onClick={() =>
+          props.updateGrade(props.course.studentID, props.course.grade)
+        }
         className="btn btn-danger"
       >
         Update Grade
@@ -17,7 +19,7 @@ const Course = props => (
   </tr>
 );
 
-export default class Courses extends Component {
+export default class English extends Component {
   constructor(props) {
     super(props);
 
@@ -28,6 +30,7 @@ export default class Courses extends Component {
 
   componentDidMount() {
     localStorage.removeItem("targetID");
+    localStorage.removeItem("grade");
     var courseID = localStorage.getItem("courseID");
     var tempStudentID = "";
     var anotherTempStudentID = "";
@@ -38,6 +41,7 @@ export default class Courses extends Component {
     var body = {
       courseID: courseID,
     };
+    console.log(courseID);
     axios
       .put("http://localhost:8080/components/gradeaverage/entireCourse", body)
       .then(response => {
@@ -49,9 +53,10 @@ export default class Courses extends Component {
       });
   }
 
-  updateGrade(id) {
+  updateGrade(id, grade) {
     console.log(id);
     localStorage.setItem("targetID", JSON.stringify(id));
+    localStorage.setItem("grade", JSON.stringify(grade));
     window.location = "/components/allcourses/updategradeform";
   }
 
