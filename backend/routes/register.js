@@ -8,7 +8,7 @@ const config = require("config");
 const Register = require("../models/registermodel");
 const Course = require("../models/coursemodel");
 let Grade = require('../models/grademodel');
-
+let GradeAverage = require("../models/gradeaveragemodel");
 
 router.route("/").post((req, res) => {
   const username = req.body.username;
@@ -89,7 +89,7 @@ router.route('/courses').post((req, res) => {
 
 //Cascading delete to remove a student from a course
 //requires studentID and courseID
-router.route('/deletecourses').put((req, res) => {
+router.route('/deletecourse').put((req, res) => {
   const courseID = req.body.courseID;
   const studentID = req.body.studentID;
   Register.findByIdAndUpdate({ _id: studentID },
@@ -102,9 +102,15 @@ router.route('/deletecourses').put((req, res) => {
   Grade.deleteMany(
     {courseID : courseID,
     studentID : studentID}
-    )
-    .catch(err => res.status(400).json('Error: ' + err));
-  Course.updateOne(
+  );
+  GradeAverage.deleteMany(
+    {courseID : courseID,
+    studentID : studentID}
+    );
+    Course.updateOne(
+      { _id: courseID, teacherID: studentID },
+      { teacherID: "" } )
+    Course.updateOne(
     { _id: courseID },
     { $pull: { students: studentID } })
   .then(register => res.json("student removed!"))
