@@ -125,7 +125,7 @@ router.route('/noTeacher').post((req, res) => {
    newCourse.save()
      .then(() => res.json('Course added!'))
      .catch(err => res.status(400).json('Error: ' + err));
-});
+});//
 
 //returns array of gradeAverages corresponding to course grades
 //requires studentID and array of courseIDs

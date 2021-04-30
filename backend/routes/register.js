@@ -136,7 +136,7 @@ router.route('/cascadingDelete').put((req, res) => {
     { teacherID: studentID },
     { teacherID: "", teacherAssigned: "" } )
     .catch(err => res.status(400).json('Error: ' + err));
-  Course.updateMany(
+  Course.updateMany( {},
     { $pull: { students: studentID } })
     .catch(err => res.status(400).json('Error: ' + err));
   Register.findByIdAndDelete(studentID)
