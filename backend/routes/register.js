@@ -1,5 +1,5 @@
 /*We are currently at 19:39 in the video*/
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const router = express.Router();
@@ -8,7 +8,7 @@ const config = require("config");
 
 const Register = require("../models/registermodel");
 const Course = require("../models/coursemodel");
-let Grade = require('../models/grademodel');
+let Grade = require("../models/grademodel");
 let GradeAverage = require("../models/gradeaveragemodel");
 
 router.route("/").post((req, res) => {
@@ -35,7 +35,7 @@ router.route("/").post((req, res) => {
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(newRegister.password, salt, (err, hash) => {
         if (err) throw err;
-         newRegister.password = hash;
+        newRegister.password = hash;
         newRegister.save().then(user => {
           jwt.sign(
             { id: user.id },
@@ -65,136 +65,95 @@ router.route("/").post((req, res) => {
 
 //Deletes all users of a given username
 //requires only the username
-router.route('/').delete((req, res) => {
-  Register.remove({username: req.body.username})
-  .then(register => res.json("deletion successful"))
-  .catch(err => res.status(400).json('Error: ' + err));
+router.route("/").delete((req, res) => {
+  Register.remove({ username: req.body.username })
+    .then(register => res.json("deletion successful"))
+    .catch(err => res.status(400).json("Error: " + err));
 });
 
 //Adds a course to a students assignedCoursesIDs array
 //requires studentID and courseID
-router.route('/courses').post((req, res) => {
+router.route("/courses").post((req, res) => {
   const courseID = req.body.courseID;
   const studentID = req.body.studentID;
 
   Register.updateOne(
     { _id: studentID },
-    { $push: { assignedCoursesIDs: courseID } })
-  .catch(err => res.status(400).json('Error: ' + err));
-  Course.updateOne(
-    { _id: courseID },
-    { $push: { students: studentID } })
-  .then(register => res.json("student added!"))
-  .catch(err => res.status(400).json('Error: ' + err));
+    { $push: { assignedCoursesIDs: courseID } }
+  ).catch(err => res.status(400).json("Error: " + err));
+  Course.updateOne({ _id: courseID }, { $push: { students: studentID } })
+    .then(register => res.json("student added!"))
+    .catch(err => res.status(400).json("Error: " + err));
 });
 
 //Cascading delete to remove a student/teacher from a course
 //requires studentID and courseID
-router.route('/deletecourse').put(async(req, res) => {
+router.route("/deletecourse").put((req, res) => {
   const courseID = req.body.courseID;
   const studentID = req.body.studentID;
-  const info = await Register.find({_id: studentID});
-  var array = info[0].assignedCoursesIDs;
-  //res.json(array);
-  for (var i = 0; i < array.length; i++) {
-    if (array[i] === courseID) 
-      array.splice(i, 1);
-  }
-  //res.json(array);
-  Register.updateOne(
-  { _id : studentID },
-  {assignedCoursesIDs : array}
-  )
-  .catch(err => res.status(400).json('Error: ' + err));
-  /*const name = info[0].name;
-  const temp = await Register.find({ name: name });
-  Register.update(
-    { 'name': name  }, 
-    { $pull: { assignedCoursesIDs : { courseID } } },
-    false, // Upsert
-    true, // Multi
-);*/
-  //res.json(temp);
-  /*Register.update( 
-    { name: name },
-    {
-        $pull: {
-          assignedCoursesIDs: courseID
-        }
-    },
-    { }
-);*/
-  //Register.update({ name: name },
-  //  { $pull: { assignedCoursesIDs: "607e328807500c8244916514" } })
-  //.catch(err => res.status(400).json('Error: ' + err));
-  /*Register.updateOne(
+  Register.findByIdAndUpdate(
+    { _id: studentID },
+    { $pull: { assignedCoursesIDs: courseID } }
+  ).catch(err => res.status(400).json("Error: " + err));
+  /*Register.updateOne( 
     { _id: studentID },
     { $pull: { assignedCoursesIDs: courseID } })
   .catch(err => res.status(400).json('Error: ' + err));*/
-  Grade.deleteMany(
-    {courseID : courseID,
-    studentID : studentID}
-  )
-  .catch(err => res.status(400).json('Error: ' + err));
-  GradeAverage.deleteMany(
-    {courseID : courseID,
-    studentID : studentID}
-    )
-    .catch(err => res.status(400).json('Error: ' + err));
-    Course.updateOne(
-      { _id: courseID, teacherID: studentID },
-      { teacherID: "", teacherAssigned: "" } )
-      .catch(err => res.status(400).json('Error: ' + err));
-    Course.updateOne(
-    { _id: courseID },
-    { $pull: { students: studentID } })
-  .then(register => res.json("student removed!"))
-  .catch(err => res.status(400).json('Error: ' + err))
+  Grade.deleteMany({ courseID: courseID, studentID: studentID }).catch(err =>
+    res.status(400).json("Error: " + err)
+  );
+  GradeAverage.deleteMany({
+    courseID: courseID,
+    studentID: studentID,
+  }).catch(err => res.status(400).json("Error: " + err));
+  Course.updateOne(
+    { _id: courseID, teacherID: studentID },
+    { teacherID: "", teacherAssigned: "" }
+  ).catch(err => res.status(400).json("Error: " + err));
+  Course.updateOne({ _id: courseID }, { $pull: { students: studentID } })
+    .then(register => res.json("student removed!"))
+    .catch(err => res.status(400).json("Error: " + err));
 });
 
-
 //Cascading delete to remove a student/teacher from a course
-//requires studentID 
-router.route('/cascadingDelete').put((req, res) => {
+//requires studentID
+router.route("/cascadingDelete").put((req, res) => {
   const studentID = req.body.studentID;
-  Grade.deleteMany(
-    {
-    studentID : studentID}
-  )
-  .catch(err => res.status(400).json('Error: ' + err));
-  GradeAverage.deleteMany(
-    { studentID : studentID}
-    )
-    .catch(err => res.status(400).json('Error: ' + err));
+  Grade.deleteMany({
+    studentID: studentID,
+  }).catch(err => res.status(400).json("Error: " + err));
+  GradeAverage.deleteMany({ studentID: studentID }).catch(err =>
+    res.status(400).json("Error: " + err)
+  );
   Course.updateMany(
     { teacherID: studentID },
-    { teacherID: "", teacherAssigned: "" } )
-    .catch(err => res.status(400).json('Error: ' + err));
-    Course.updateMany( {},
-    { $pull: { students: studentID } })
-    .catch(err => res.status(400).json('Error: ' + err));
+    { teacherID: "", teacherAssigned: "" }
+  ).catch(err => res.status(400).json("Error: " + err));
+  Course.updateMany({}, { $pull: { students: studentID } }).catch(err =>
+    res.status(400).json("Error: " + err)
+  );
   Register.findByIdAndDelete(studentID)
-  .then(register => res.json("student removed!"))
-  .catch(err => res.status(400).json('Error: ' + err));
+    .then(register => res.json("student removed!"))
+    .catch(err => res.status(400).json("Error: " + err));
 });
 
 //returns all STUDENTS in the system
-router.route('/students').get(async(req, res) => {
-  const info = await Register.find({teacher: false});
+router.route("/students").get(async (req, res) => {
+  const info = await Register.find({ teacher: false });
   res.json(info);
 });
 
 //returns all TEACHERS in the system
-router.route('/teachers').get(async(req, res) => {
-  const info = await Register.find({teacher: true});
+router.route("/teachers").get(async (req, res) => {
+  const info = await Register.find({ teacher: true });
   res.json(info);
 });
 
 //returns all STUDENTS in the system except logged in
-router.route('/studentsExceptLoggedIn').post(async(req, res) => {
+router.route("/studentsExceptLoggedIn").post(async (req, res) => {
   const studentID = req.body.studentID;
-  const studentLoggedIn = await Register.find({_id : studentID});
-  var info = await Register.find({teacher: false});
+  const studentLoggedIn = await Register.find({ _id: studentID });
+  var info = await Register.find({ teacher: false });
   for (var i = 0; i < info.length; i++) {
     if (info[i].name === studentLoggedIn[0].name) {
       info.splice(i, 1);
