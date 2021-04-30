@@ -75,7 +75,7 @@ export default class UpdateGradeForm extends Form {
         console.log(body);
       });
 
-    //window.location = "/components/dashboard";
+    window.location = "/components/dashboard";
   };
 
   render() {

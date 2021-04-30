@@ -109,7 +109,7 @@ router.route("/instructorNames").get(async (req, res) => {
 });
 //returns information about a course
 //requires course ID
-router.route("/").get((req, res) => {
+router.route("/showcourseinfo").post((req, res) => {
   const courseID = req.body.courseID;
   Course.findOne({ _id: courseID })
     .then(course => res.json(course))
