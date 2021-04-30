@@ -100,6 +100,7 @@ router.route('/deletecourse').put(async(req, res) => {
     if (array[i] === courseID) 
       array.splice(i, 1);
   }
+  //
   //res.json(array);
   Register.updateOne(
   { _id : studentID },
