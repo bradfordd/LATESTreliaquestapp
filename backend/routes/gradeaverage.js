@@ -58,6 +58,7 @@ router.route('/update').post(async(req, res) => {
     const gradeToUpdate = gradeToUpdate2[0];
     //res.json(gradeToUpdate);
     GradeAverage.updateOne( {courseID: courseID, studentID: studentID}, {grade: newgrade})
+    .catch(err => res.status(400).json('Error: ' + err));
     res.json("Grade Updated!")
       .then(() => res.json('Update Made!'))
       .catch(err => res.status(400).json('Error: ' + err));
