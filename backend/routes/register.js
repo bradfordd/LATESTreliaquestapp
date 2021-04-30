@@ -90,12 +90,43 @@ router.route('/courses').post((req, res) => {
 
 //Cascading delete to remove a student/teacher from a course
 //requires studentID and courseID
-router.route('/deletecourse').put((req, res) => {
+router.route('/deletecourse').put(async(req, res) => {
   const courseID = req.body.courseID;
   const studentID = req.body.studentID;
-  Register.findByIdAndUpdate({ _id: studentID },
-    { $pull: { assignedCoursesIDs: courseID } })
+  const info = await Register.find({_id: studentID});
+  var array = info[0].assignedCoursesIDs;
+  //res.json(array);
+  for (var i = 0; i < array.length; i++) {
+    if (array[i] === courseID) 
+      array.splice(i, 1);
+  }
+  //res.json(array);
+  Register.updateOne(
+  { _id : studentID },
+  {assignedCoursesIDs : array}
+  )
   .catch(err => res.status(400).json('Error: ' + err));
+  /*const name = info[0].name;
+  const temp = await Register.find({ name: name });
+  Register.update(
+    { 'name': name  }, 
+    { $pull: { assignedCoursesIDs : { courseID } } },
+    false, // Upsert
+    true, // Multi
+);*/
+  //res.json(temp);
+  /*Register.update( 
+    { name: name },
+    {
+        $pull: {
+          assignedCoursesIDs: courseID
+        }
+    },
+    { }
+);*/
+  //Register.update({ name: name },
+  //  { $pull: { assignedCoursesIDs: "607e328807500c8244916514" } })
+  //.catch(err => res.status(400).json('Error: ' + err));
   /*Register.updateOne(
     { _id: studentID },
     { $pull: { assignedCoursesIDs: courseID } })
