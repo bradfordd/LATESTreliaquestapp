@@ -100,10 +100,6 @@ export default class CourseForm extends Component {
   doSubmit(e) {
     e.preventDefault(e);
 
-    /*const course_to_be_added = {
-      course_id: this.state
-    };*/
-
     var studentID = localStorage.getItem("studentID");
     var tempStudentID = "";
     var anotherTempStudentID = "";
@@ -112,15 +108,6 @@ export default class CourseForm extends Component {
     anotherTempStudentID = tempStudentID.replace('"', "");
     studentID = anotherTempStudentID;
     console.log(this.state);
-    /*return this.state.courses.map(currentcourse => {
-      return (
-        <Course
-          course={currentcourse[0]}
-          deleteCourse={this.deleteCourse}
-          key={currentcourse[0]._id}
-        />
-      );
-    });*/
 
     var body = {
       studentID: studentID,

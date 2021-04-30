@@ -105,9 +105,6 @@ export default class Courses extends Component {
   }
 
   render() {
-    if (this.state.courses.length === 0)
-      return <p>You are currently not enrolled to any courses.</p>;
-
     return (
       <React.Fragment>
         <div>
