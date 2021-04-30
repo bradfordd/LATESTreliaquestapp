@@ -116,11 +116,12 @@ router.route('/noTeacher').post((req, res) => {
    const name = req.body.name;
    const teacherAssigned = "No Teacher Assigned";
    const students = [];
+   const teacherID = "";
    //for (i = 0; i < req.body.students.length; i++) {
    //    students.push(req.body.students[i])
    //}
 
-   const newCourse = new Course({name, teacherAssigned, students});
+   const newCourse = new Course({name, teacherAssigned, teacherID, students});
  
    newCourse.save()
      .then(() => res.json('Course added!'))
