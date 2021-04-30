@@ -88,7 +88,7 @@ export default class Courses extends Component {
         console.log(response.data);
       });
 
-    //window.location = "/components/courses";
+    window.location = "/components/courses";
   }
 
   courseList() {

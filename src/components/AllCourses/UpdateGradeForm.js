@@ -40,6 +40,7 @@ export default class UpdateGradeForm extends Form {
     var studentID = localStorage.getItem("targetID");
     var tempStudentID = "";
     var anotherTempStudentID = "";
+    var grade = this.state.data.grade;
 
     tempStudentID = courseID.replace('"', "");
     anotherTempStudentID = tempStudentID.replace('"', "");
@@ -53,8 +54,12 @@ export default class UpdateGradeForm extends Form {
     anotherTempStudentID = tempStudentID.replace('"', "");
     studentID = anotherTempStudentID;
 
+    tempStudentID = grade.replace('"', "");
+    anotherTempStudentID = tempStudentID.replace('"', "");
+    grade = anotherTempStudentID;
+
     var body = {
-      grade: this.state.data.grade,
+      grade: grade,
       courseID: courseID,
       studentID: studentID,
     };
@@ -67,15 +72,16 @@ export default class UpdateGradeForm extends Form {
       .post("http://localhost:8080/components/gradeaverage/update", body)
       .then(response => {
         console.log(response.data);
+        console.log(body);
       });
 
-    window.location = "/components/dashboard";
+    //window.location = "/components/dashboard";
   };
 
   render() {
     return (
       <div>
-        <h1>Login </h1>
+        <h1>Change Student's Grade </h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("grade", "New Grade to be Assigned")}
 
