@@ -32,14 +32,19 @@ router.route('/').post(async(req, res) => {
 //Requires a teacherID and courseID
 router.route('/assignTeacher').post(async(req, res) => {
   var courseID = req.body.courseID;
-  var courseID = await Course.find({_id: courseID});
-  courseID = courseID[0]._id;
+  //var courseID = await Course.find({_id: courseID});
+  //courseID = courseID[0]._id;
   const teacherID = req.body.teacherID;
-  const teacherInfo = await Register.find({_id: teacherID});
-  const teacherName = teacherInfo[0].name;
-  Course.updateOne( {_id: courseID}, {teacherAssigned: teacherName});
+  //res.json(teacherID);
+  const teacherInfo = await Register.findById(teacherID);
+  //const teacherInfo = await Register.find();
+ // res.json(teacherInfo);
+  const teacherName = teacherInfo.name;
+  //res.json(teacherName);
+  Course.updateOne( { "_id": courseID}, {"teacherAssigned": teacherName, "teacherID": teacherID})
+  .catch(err => res.status(400).json('Error: ' + err));
   Register.updateOne(
-    { _id: teacherID },
+    { "_id": teacherID },
     { $push: { assignedCoursesIDs: courseID } })
   .then(res.json("Course Added!"))   
  .catch(err => res.status(400).json('Error: ' + err));
