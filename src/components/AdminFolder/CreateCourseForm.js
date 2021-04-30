@@ -79,8 +79,7 @@ export default class CourseForm extends Form {
     //console.log(this.state);
 
     var body = {
-      courseID: this.state.course_id,
-      teacherID: this.state.teacher_id,
+      name: this.state.course_id_,
     };
     axios
       .post("http://localhost:8080/components/course/noTeacher", body)
