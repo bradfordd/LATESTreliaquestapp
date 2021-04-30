@@ -65,7 +65,7 @@ export default class Courses extends Component {
     };
 
     axios
-      .put("http://localhost:8080/components/register/deletecourses", msg)
+      .put("http://localhost:8080/components/register/deletecourse", msg)
       .then(response => {
         console.log(response.data);
       });
@@ -88,7 +88,7 @@ export default class Courses extends Component {
         console.log(response.data);
       });
 
-    window.location = "/components/courses";
+    //window.location = "/components/courses";
   }
 
   courseList() {
