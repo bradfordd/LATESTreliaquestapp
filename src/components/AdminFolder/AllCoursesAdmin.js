@@ -13,9 +13,17 @@ const Course = props => (
         onClick={() =>
           props.navigateToCourse(props.course.name, props.course._id)
         }
-        className="btn btn-danger"
+        className="btn btn-primary"
       >
         View Course
+      </button>
+    </td>
+    <td>
+      <button
+        onClick={() => props.cascadeDeleteCourse(props.course._id)}
+        className="btn btn-danger"
+      >
+        Cascade Delete Course
       </button>
     </td>
   </tr>
@@ -30,6 +38,7 @@ export default class Dashboard extends Component {
     super(props);
 
     this.navigateToCourse = this.navigateToCourse.bind(this);
+    this.cascadeDeleteCourse = this.cascadeDeleteCourse.bind(this);
 
     this.state = { courses: [] };
   }
@@ -52,6 +61,29 @@ export default class Dashboard extends Component {
         />
       );
     });
+  }
+
+  cascadeDeleteCourse(id) {
+    localStorage.setItem("targetID", JSON.stringify(id));
+
+    console.log(id);
+    var body3 = {
+      courseID: id,
+    };
+    console.log(body3.courseID);
+    axios
+      .put("http://localhost:8080/components/register/cascadingDelete", body3)
+      .then(response => {
+        console.log(response.data);
+        console.log(body3);
+      });
+    //localStorage.setItem("grade", JSON.stringify(grade));
+
+    this.setState({
+      courses: this.state.courses.filter(el => el._id !== body3.studentID),
+    });
+
+    //window.location = "/components/adminfolder/englishadmin";
   }
 
   navigateToCourse(name_of_course, id) {
@@ -100,6 +132,7 @@ export default class Dashboard extends Component {
             <thead>
               <tr>
                 <th scope="col">Course Name</th>
+                <th scope="col">Actions</th>
                 <th scope="col">Actions</th>
               </tr>
             </thead>
