@@ -1,0 +1,3 @@
+The backend folder contained in this application contains the js code that boots up the server.
+The backend folder also contains all of the API's that are utilized by the frontend to interact with
+the database. 
