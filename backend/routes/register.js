@@ -103,14 +103,17 @@ router.route('/deletecourse').put((req, res) => {
   Grade.deleteMany(
     {courseID : courseID,
     studentID : studentID}
-  );
+  )
+  .catch(err => res.status(400).json('Error: ' + err));
   GradeAverage.deleteMany(
     {courseID : courseID,
     studentID : studentID}
-    );
+    )
+    .catch(err => res.status(400).json('Error: ' + err));
     Course.updateOne(
       { _id: courseID, teacherID: studentID },
       { teacherID: "", teacherAssigned: "" } )
+      .catch(err => res.status(400).json('Error: ' + err));
     Course.updateOne(
     { _id: courseID },
     { $pull: { students: studentID } })
@@ -136,7 +139,7 @@ router.route('/cascadingDelete').put((req, res) => {
     { teacherID: studentID },
     { teacherID: "", teacherAssigned: "" } )
     .catch(err => res.status(400).json('Error: ' + err));
-  Course.updateMany( {},
+    Course.updateMany( {},
     { $pull: { students: studentID } })
     .catch(err => res.status(400).json('Error: ' + err));
   Register.findByIdAndDelete(studentID)
