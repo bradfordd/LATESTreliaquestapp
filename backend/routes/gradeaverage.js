@@ -116,11 +116,6 @@ router.route('/deleteGradeAverage').post(async(req, res) => {
   )
   .then(res.json("grade deleted!"))
   .catch(err => res.status(400).json('Error: ' + err));
-  /*GradeAverage.updateOne(
-    { courseID : courseID, studentID : studentID},
-    {$push: { sharedWith : studentIDToShareWith}})
-    .then(res.json("grade shared!"))
-  .catch(err => res.status(400).json('Error: ' + err));*/
   
   });
 
@@ -130,4 +125,5 @@ router.route('/').get(async(req, res) => {
   const info = await GradeAverage.find();
   res.json(info);
 })
+
 module.exports = router;
