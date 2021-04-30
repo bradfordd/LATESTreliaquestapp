@@ -82,7 +82,11 @@ export default class CourseForm extends Form {
       courseID: this.state.course_id,
       teacherID: this.state.teacher_id,
     };
-
+    axios
+      .post("http://localhost:8080/components/course/noTeacher", body)
+      .then(response => {
+        console.log(response.data);
+      });
     //window.location = "/components/adminfolder/updatecourseform";
   }
 
