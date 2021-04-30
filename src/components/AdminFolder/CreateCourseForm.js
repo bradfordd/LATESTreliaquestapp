@@ -36,6 +36,7 @@ export default class CourseForm extends Form {
     this.setState({
       course_id_: e.target.value,
     });
+    console.log(this.state.data.course_id_);
   }
 
   componentDidMount() {
@@ -66,9 +67,7 @@ export default class CourseForm extends Form {
     });
   }
 
-  doSubmit(e) {
-    e.preventDefault(e);
-
+  doSubmit = async () => {
     var studentID = localStorage.getItem("studentID");
     var tempStudentID = "";
     var anotherTempStudentID = "";
@@ -79,15 +78,16 @@ export default class CourseForm extends Form {
     //console.log(this.state);
 
     var body = {
-      name: this.state.course_id_,
+      name: this.state.data.course_id_,
     };
+    console.log(body.name);
     axios
       .post("http://localhost:8080/components/course/noTeacher", body)
       .then(response => {
         console.log(response.data);
       });
     //window.location = "/components/adminfolder/updatecourseform";
-  }
+  };
 
   render() {
     return (
