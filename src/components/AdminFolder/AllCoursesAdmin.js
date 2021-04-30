@@ -18,14 +18,6 @@ const Course = props => (
         View Course
       </button>
     </td>
-    <td>
-      <button
-        onClick={() => props.cascadeDeleteCourse(props.course._id)}
-        className="btn btn-danger"
-      >
-        Cascade Delete Course
-      </button>
-    </td>
   </tr>
 );
 
@@ -133,7 +125,6 @@ export default class Dashboard extends Component {
               <tr>
                 <th scope="col">Course Name</th>
                 <th scope="col">Actions</th>
-                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>{this.courseList()}</tbody>
@@ -166,3 +157,12 @@ render() {
   );
 }
 }*/
+
+/* <td>
+      <button
+        onClick={() => props.cascadeDeleteCourse(props.course._id)}
+        className="btn btn-danger"
+      >
+        Cascade Delete Course
+      </button>
+    </td> */
