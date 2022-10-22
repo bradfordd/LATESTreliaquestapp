@@ -9,3 +9,8 @@ Models contains the schema for each data object that makes up the database as we
 as the model for the tokens used in a session.
 Routes within backend contains the APIs associated with each object
 Server.js starts up the server.
+
+Backend Dependencies install: 
+npm install mongodb express cors dotenv
+Frontend dependencies install:
+npm install bootstrap react-router-dom
