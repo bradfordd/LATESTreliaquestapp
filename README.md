@@ -1,67 +1,41 @@
-# Getting Started with Create React App
+# Getting Started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+To run the code, follow the steps below:
 
-## Available Scripts
+1. Ensure you have Node.js installed on your system. If you don't have it, download and install it from https://nodejs.org/en/download/.
 
-In the project directory, you can run:
+2. Install Git if you don't have it already. You can download it from https://git-scm.com/downloads.
 
-### `npm start`
+3. Open your terminal or command prompt and clone the repository:
+```
+git clone https://github.com/bradfordd/LATESTreliaquestapp.git
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+4. Navigate to the "reliaquest/backend" directory and install the backend dependencies:
+```
+cd LATESTreliaquestapp/reliaquest/backend
+npm install mongodb express cors dotenv
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+5. Start the server by running the following command in the terminal:
+```
+npm start
+```
 
-### `npm test`
+6. Open a new terminal or command prompt, navigate to the "reliaquestapp" directory and install the frontend dependencies:
+```
+cd LATESTreliaquestapp/reliaquestapp
+npm install bootstrap react-router-dom
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+7. Start the frontend application by running the following command in the terminal:
+```
+npm start
+```
 
-### `npm run build`
+The backend folder contained in this application contains the JavaScript code that boots up the server. The backend folder also contains all of the APIs that are utilized by the frontend to interact with the database. Within the backend, `config` and `node_modules` are included within the project initialization. `Models` contains the schema for each data object that makes up the database as well as the model for the tokens used in a session. `Routes` within backend contains the APIs associated with each object. `server.js` starts up the server.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
+Now, the application should be running on your local machine. You can access the frontend by opening a web browser and navigating to http://localhost:3000.
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
